@@ -1,5 +1,6 @@
 package com.example.administrator.myapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private HeadFragment head;
     private FindFragment find;
     private MeFragment me;
+    private int myID;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent=getIntent();
+        myID=intent.getIntExtra("myID",0);
         navigation =findViewById(R.id.navigation);
-        head = new HeadFragment();
+        head = new HeadFragment(myID);
         find = new FindFragment();
         me = new MeFragment();
         transaction = getSupportFragmentManager().beginTransaction();
