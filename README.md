@@ -19,7 +19,7 @@ C#服务器：[https://gitee.com/zzijin/sign-in-server](https://gitee.com/zzijin
    2.用户修改个人信息  
   
 二、打卡活动：  
-   1.用户创新新的打卡活动  
+   1.用户创建的打卡活动  
    2.活动发起者修改管理活动信息  
    3.用户查看参与的活动  
    4.用户通过搜索活动ID加入活动  
