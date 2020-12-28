@@ -25,6 +25,10 @@ public class MyInfo {
     //-1:未登录；0:登录中;1:登录成功;2:登录失败
     private int myLoginStatus=-1;
 
+    public MyInfo(){
+
+    }
+
     public MyInfo(String myName,String myPassword){
         this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();
     }

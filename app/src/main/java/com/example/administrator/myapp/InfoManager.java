@@ -20,6 +20,10 @@ public class InfoManager {
         userInfoList=new LinkedList<>();
     }
 
+    public MyInfo getMyInfo() {
+        return myInfo;
+    }
+
     /**
      * 向活动列表添加活动(申请注册的活动)
      * @param checkInActivityInfo

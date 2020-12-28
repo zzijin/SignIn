@@ -1,14 +1,19 @@
 package com.example.administrator.myapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.example.administrator.myapp.Info.CheckInActivityInfo;
+import com.example.administrator.myapp.Info.MyInfo;
+import com.example.administrator.myapp.Info.UserInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.adapter.HeadAdapter;
@@ -19,18 +24,29 @@ import com.example.administrator.myapp.cls.Sign;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeadFragment extends Fragment {
+@SuppressLint("ValidFragment")
+public class HeadFragment extends Fragment implements AdapterView.OnItemClickListener{
     private ListView listView;
     private List<Sign> list=new ArrayList<>();
+    private List<CheckInActivityInfo> mychecklist=new ArrayList<>();
+    private List<UserInfo> userInfoslist=new ArrayList<>();
+    private List<MyInfo> myInfoslist=new ArrayList<>();
+    private MyInfo myInfo;
+    private int myID;
+    @SuppressLint("ValidFragment")
+    public HeadFragment(int myID){
+        this.myID=myID;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_head, container, false);
         listView=view.findViewById(R.id.head_list);
-        initData();
-       BaseAdapter adapter=new HeadAdapter(list,getContext());
+        BaseAdapter adapter=new HeadAdapter(getContext(),mychecklist);
+        onActivityCreated(savedInstanceState);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         return view;
     }
 
@@ -40,13 +56,17 @@ public class HeadFragment extends Fragment {
         SocketApplication socketApplication=(SocketApplication)getActivity().getApplication();
         SocketClient socketClient=socketApplication.getSocketClient();
         InfoManager infoManager=socketApplication.getInfoManager();
+        userInfoslist=infoManager.getUserInfoList();
+         myInfo=infoManager.getMyInfo();
+ //       myInfoslist=infoManager.getMyInfoList();
+ //      mychecklist=infoManager.getCheckInActivityInfoList();
+      for (int j=0;j<=myInfo.getJoinActivity().size();j++){
+               mychecklist.add(infoManager.getCheckInActivityInfoByActivityID(myInfo.getJoinActivity().get(j)));
+           }
     }
 
-    private void initData() {
-        list.clear();
-        for (int i=1;i<=7;i++) {
-            Sign sign=new Sign("活动："+i,"赵煦仁","主题","地址",R.mipmap.head_pro);
-            list.add(sign);
-        }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

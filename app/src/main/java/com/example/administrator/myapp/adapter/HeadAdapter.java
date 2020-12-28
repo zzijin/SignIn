@@ -6,29 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.ViewHolder;
-import com.example.administrator.myapp.cls.Sign;
 
 import java.util.List;
 
 public class HeadAdapter extends BaseAdapter {
-    private List<Sign> list;
+    private List<CheckInActivityInfo> checkInActivityInfosList;
     private Context ctx;
 
-    public HeadAdapter(List<Sign> list, Context ctx) {
-        this.list = list;
+    public HeadAdapter(Context ctx, List<CheckInActivityInfo> checkInActivityInfosList) {
         this.ctx = ctx;
+        this.checkInActivityInfosList=checkInActivityInfosList;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return checkInActivityInfosList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return checkInActivityInfosList.get(position);
     }
 
     @Override
@@ -42,13 +42,13 @@ public class HeadAdapter extends BaseAdapter {
         if (view == null) {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(ctx).inflate(R.layout.fragment_head_list, null);
-            viewHolder.sign = list.get(position);
+            viewHolder.checkInActivityInfo=checkInActivityInfosList.get(position);
             viewHolder.headpro = view.findViewById(R.id.head_list_pro);
             viewHolder.headpro.setImageResource(viewHolder.sign.getProfile());
             viewHolder.headna = view.findViewById(R.id.head_list_hdname);
-            viewHolder.headna.setText(viewHolder.sign.getSignname());
+            viewHolder.headna.setText(viewHolder.checkInActivityInfo.getActivityTheme());
             viewHolder.headsp = view.findViewById(R.id.head_list_time);
-            viewHolder.headsp.setText(viewHolder.sign.getSponsor());
+            viewHolder.headsp.setText(viewHolder.checkInActivityInfo.getActivityID());
         } else {
             viewHolder = (ViewHolder) view.getTag();
 
