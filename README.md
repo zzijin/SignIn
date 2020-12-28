@@ -19,7 +19,7 @@ C#服务器：[https://gitee.com/zzijin/sign-in-server](https://gitee.com/zzijin
    2.用户修改个人信息
 
 二、打卡活动：
-   1.用户创新新的打卡活动
+   1.用户创新新的打卡活动\n
    2.活动发起者修改管理活动信息
    3.用户查看参与的活动
    4.用户通过搜索活动ID加入活动
@@ -30,4 +30,3 @@ C#服务器：[https://gitee.com/zzijin/sign-in-server](https://gitee.com/zzijin
    1.发布活动时通过自我定位/文字选址/地图点击确认打卡定位位置
    2.去往参与活动时可使用地图导航路线
    3.打卡时间内通过地图定位完成打卡
-[输入链接说明](http://)
