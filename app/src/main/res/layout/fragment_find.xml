@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="50dp">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <LinearLayout
+          android:id="@+id/find_head_top"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:background="#8a8a8a"
+          android:padding="10dp">
+          <!--左-->
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:gravity="center_horizontal">
+              <ImageView
+                  android:layout_width="25dp"
+                  android:layout_height="25dp"
+                  android:src="@mipmap/main_scan"/>
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="扫一扫"
+                  android:textColor="#FFFFFF"/>
+          </LinearLayout>
+          <!--中-->
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="#ffffff"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:layout_marginLeft="15dp"
+              android:layout_marginRight="15dp">
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:layout_weight="1"
+                  android:hint="Search"
+                  android:background="@null" />
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_weight="6"
+                  android:layout_height="25dp"
+                  android:src="@mipmap/search"/>
+
+          </LinearLayout>
+
+          <!--右-->
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:gravity="center_horizontal">
+              <ImageView
+                  android:layout_width="25dp"
+                  android:layout_height="25dp"
+                  android:src="@mipmap/news"/>
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="消息"
+                  android:textColor="#FFFFFF"/>
+          </LinearLayout>
+      </LinearLayout>
+
+      <ImageView
+          android:id="@+id/find_img"
+          android:layout_width="match_parent"
+          android:layout_height="170dp"
+          android:layout_below="@id/find_head_top"
+          android:background="@mipmap/find_img"/>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_below="@+id/find_img"
+          android:paddingLeft="10dp"
+          android:paddingRight="10dp">
+
+          <LinearLayout
+              android:id="@+id/find_re_top"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/find_sb"
+                  android:layout_margin="10dp"
+                  android:layout_weight="1"/>
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/find_dt"
+                  android:layout_margin="10dp"
+                  android:layout_weight="1"/>
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/find_qj"
+                  android:layout_margin="10dp"
+                  android:layout_weight="1"/>
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/find_zb"
+                  android:layout_margin="10dp"
+                  android:layout_weight="1"/>
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@mipmap/find_rl"
+                  android:layout_margin="10dp"
+                  android:layout_weight="1"/>
+          </LinearLayout>
+
+          <TextView
+              android:id="@+id/find_line"
+              android:layout_width="match_parent"
+              android:layout_height="3dp"
+              android:layout_below="@+id/find_re_top"
+              android:background="#e6e6e6"/>
+
+          <LinearLayout
+              android:id="@+id/find_re_cont"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="30dp"
+              android:orientation="vertical"
+              android:layout_below="@+id/find_line">
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="热门活动"
+                  android:textSize="20dp"
+                  android:textStyle="bold"/>
+              <TextView
+                  android:layout_marginTop="5dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="今日最高活跃活动"/>
+          </LinearLayout>
+
+          <Button
+              android:id="@+id/find_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/find_re_cont"
+              android:layout_marginTop="20dp"
+              android:layout_marginBottom="10dp"
+              android:layout_centerHorizontal="true"
+              android:text="发布活动"/>
+
+
+      </RelativeLayout>
+
+
+  </RelativeLayout>
+
+
+
+</FrameLayout>
