@@ -6,7 +6,7 @@ SignIn项目的Android客户端，使用JAVA编写
 
 
 #### 项目链接:
-C#服务器：https://gitee.com/zzijin/sign-in-server
+C#服务器：[https://gitee.com/zzijin/sign-in-server](https://gitee.com/zzijin/sign-in-server)
 
 
 #### 技术要点
@@ -30,3 +30,4 @@ C#服务器：https://gitee.com/zzijin/sign-in-server
    1.发布活动时通过自我定位/文字选址/地图点击确认打卡定位位置
    2.去往参与活动时可使用地图导航路线
    3.打卡时间内通过地图定位完成打卡
+[输入链接说明](http://)
