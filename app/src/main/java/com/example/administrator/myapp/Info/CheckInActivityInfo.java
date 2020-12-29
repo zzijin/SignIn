@@ -3,6 +3,8 @@ package com.example.administrator.myapp.Info;
 import com.example.administrator.myapp.client.SwitchMessage;
 import com.example.administrator.myapp.client.file.PictureFile;
 
+import java.util.List;
+
 public class CheckInActivityInfo {
     /**
      * 活动发起人ID
@@ -58,6 +60,10 @@ public class CheckInActivityInfo {
      * 活动内容
      */
     private String activityContent;
+    /**
+     * 活动参与者
+     */
+    private List<Integer> activityParticipant;
 
     //向服务器申请
     public CheckInActivityInfo(int activityID){
@@ -78,6 +84,17 @@ public class CheckInActivityInfo {
         this.activityInitiatorID = activityInitiatorID;this.activityTheme = activityTheme;this.activityCheckInLongitude = activityCheckInLongitude;
         this.activityCheckInLatitude = activityCheckInLatitude;this.activityInvitationCode = activityInvitationCode;this.activityCheckInStartTime=activityCheckInStartTime;
         this.activityCheckInEndTime = activityCheckInEndTime;this.activityStartTime = activityStartTime;this.activityEndTime = activityEndTime;
+    }
+
+    /**
+     * 获取活动参与列表状态，返回值为null表示还未向服务器获取到参与者信息
+     */
+    public boolean getActivityParticipantStatus(){
+        return activityParticipant==null;
+    }
+
+    public void addActivityParticipantInfo(List<Integer> activityParticipant){
+        this.activityParticipant=activityParticipant;
     }
 
     public void setActivityID(int activityID) {

@@ -18,6 +18,7 @@ public class InfoManager {
     public InfoManager(){
         checkInActivityInfoList=new LinkedList<>();
         userInfoList=new LinkedList<>();
+        myInfo=new MyInfo();
     }
 
     public MyInfo getMyInfo() {
@@ -32,6 +33,10 @@ public class InfoManager {
     public int addCheckInActivityInfo(CheckInActivityInfo checkInActivityInfo){
         checkInActivityInfoList.add(checkInActivityInfo);
         return checkInActivityInfoList.size()-1;
+    }
+
+    public void registerMyAccount(){
+
     }
 
     /**

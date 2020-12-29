@@ -4,6 +4,9 @@ package com.example.administrator.myapp.configuration;
  * 发送接收消息时消息的类别
  */
 public class MessageNameConfiguration {
+    static final public String REGISTER_NAME="RegisterName";
+    static final public String REGISTER_PASSWORD="RegisterPassword";
+    static final public String REGISTER_STATUS="RegisterStatus";
     static final public String LOGIN_ID="LoginUserID";
     static final public String LOGIN_NAME="LoginUserName";
     static final public String LOGIN_PASSWORD="LoginUserPassword";

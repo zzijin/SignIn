@@ -49,7 +49,7 @@ public class JsonByUTF8 {
          * @param Data
          * @return
          */
-        public boolean PutData(String DataName, String Data){
+        public boolean putData(String DataName, String Data){
                 try {
                         json.put(DataName,Data);
                         return true;
@@ -58,7 +58,7 @@ public class JsonByUTF8 {
                 }
                 return false;
         }
-        public boolean PutData(String DataName, int Data){
+        public boolean putData(String DataName, int Data){
                 try {
                         json.put(DataName,Data);
                         return true;
@@ -67,7 +67,7 @@ public class JsonByUTF8 {
                 }
                 return false;
         }
-        public boolean PutData(String DataName, long Data){
+        public boolean putData(String DataName, long Data){
                 try {
                         json.put(DataName,Data);
                         return true;
@@ -76,7 +76,7 @@ public class JsonByUTF8 {
                 }
                 return false;
         }
-        public boolean PutData(String DataName, Object Data){
+        public boolean putData(String DataName, Object Data){
                 try {
                         json.put(DataName,Data);
                         return true;
@@ -85,7 +85,7 @@ public class JsonByUTF8 {
                 }
                 return false;
         }
-        public boolean PutData(String DataName,double Data){
+        public boolean putData(String DataName, double Data){
                 try {
                         json.put(DataName,Data);
                         return true;
@@ -94,7 +94,7 @@ public class JsonByUTF8 {
                 }
                 return false;
         }
-        public boolean PutData(String DataName, boolean Data){
+        public boolean putData(String DataName, boolean Data){
                 try {
                         json.put(DataName,Data);
                         return true;

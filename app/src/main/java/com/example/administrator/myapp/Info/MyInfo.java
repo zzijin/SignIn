@@ -20,19 +20,19 @@ public class MyInfo {
     private List<Integer> joinActivity;
     private List<Integer> waitJoinStatusActivity;
     private List<Integer> failJoinActivity;
-    //-1:未登录；0:登录中;1:登录成功;2:登录失败
+    //-1:未登录；0:登录中;1:登录成功;2:登录失败;3:注册中;4:注册失败;5:注册成功
     private int myLoginStatus=-1;
 
     public MyInfo(){
-
+        myLoginStatus=-1;
     }
 
-    public MyInfo(String myName,String myPassword){
-        this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();
+    public void loginMyAccount(int myID,String myPassword){
+        this.myID=myID;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=0;
     }
 
-    public MyInfo(int myID,String myPassword){
-        this.myID=myID;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();
+    public void registerMyAccount(String myName,String myPassword){
+        this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=3;
     }
 
     public void addWaitJoin(int activityID){
@@ -47,24 +47,6 @@ public class MyInfo {
                 return;
             }
         }
-    }
-
-    public void loginMyInfo(String myName, String myPassword, SocketClient socketClient){
-        this.myName=myName;this.myPassword=myPassword;
-        JsonByUTF8 json=new JsonByUTF8();
-        json.PutData(MessageNameConfiguration.LOGIN_NAME,myName);
-        json.PutData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO_BY_ID,json.getMessage());
-        myLoginStatus=0;
-    }
-
-    public void loginMyInfo(int myID,String myPassword,SocketClient socketClient){
-        this.myID=myID;this.myPassword=myPassword;
-        JsonByUTF8 json=new JsonByUTF8();
-        json.PutData(MessageNameConfiguration.LOGIN_ID,myID);
-        json.PutData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO_BY_ID,json.getMessage());
-        myLoginStatus=0;
     }
 
     public void loginFailMyInfo(){

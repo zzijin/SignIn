@@ -42,8 +42,6 @@ public class SwitchMessage {
                 caseActivityRegister(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_ACTIVITY_GET_INFO:
                 caseActivityGetInfo(basicMessage);break;
-            case ServerMessageTypeConfiguration.SERVER_ACTIVITY_GET_NUMBER_OF_PEOPLE:
-                caseActivityGetNumberOfPeople(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_ACTIVITY_JOIN:
                 caseActivityJoin(basicMessage);break;
             default:
@@ -77,10 +75,6 @@ public class SwitchMessage {
         }
     }
 
-    private void caseActivityGetNumberOfPeople(BasicMessage basicMessage){
-
-    }
-
     private void caseActivityJoin(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
@@ -101,7 +95,13 @@ public class SwitchMessage {
     }
 
     private void caseUserRegister(BasicMessage basicMessage){
+        JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
+        try {
+            json.getJson().getBoolean(MessageNameConfiguration.REGISTER_STATUS);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void caseUserGetInfoByUID(BasicMessage basicMessage){
