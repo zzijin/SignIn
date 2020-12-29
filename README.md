@@ -6,7 +6,7 @@ SignIn项目的Android客户端，使用JAVA编写
 
 
 #### 项目链接:
-C#服务器：[https://gitee.com/zzijin/sign-in-server](https://gitee.com/zzijin/sign-in-server)
+C#服务器：https://gitee.com/zzijin/SignInServer
 
 
 #### 技术要点
