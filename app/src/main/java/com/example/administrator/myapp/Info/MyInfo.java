@@ -1,7 +1,5 @@
 package com.example.administrator.myapp.Info;
 
-import android.widget.ArrayAdapter;
-
 import com.example.administrator.myapp.client.JsonByUTF8;
 import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.client.configuration.ClientMessageTypeConfiguration;
@@ -56,7 +54,7 @@ public class MyInfo {
         JsonByUTF8 json=new JsonByUTF8();
         json.PutData(MessageNameConfiguration.LOGIN_NAME,myName);
         json.PutData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO,json.getMessage());
+        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO_BY_ID,json.getMessage());
         myLoginStatus=0;
     }
 
@@ -65,7 +63,7 @@ public class MyInfo {
         JsonByUTF8 json=new JsonByUTF8();
         json.PutData(MessageNameConfiguration.LOGIN_ID,myID);
         json.PutData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO,json.getMessage());
+        socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO_BY_ID,json.getMessage());
         myLoginStatus=0;
     }
 

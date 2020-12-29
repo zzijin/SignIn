@@ -4,7 +4,6 @@ package com.example.administrator.myapp.client;
 import android.util.Log;
 
 import com.example.administrator.myapp.Info.CheckInActivityInfo;
-import com.example.administrator.myapp.Info.MyInfo;
 import com.example.administrator.myapp.Info.UserInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.client.configuration.ServerMessageTypeConfiguration;
@@ -37,7 +36,7 @@ public class SwitchMessage {
                 caseUserLoginInfo(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_USER_REGISTER:
                 caseUserRegister(basicMessage);break;
-            case ServerMessageTypeConfiguration.SERVER_USER_GET_INFO_BY_UID:
+            case ServerMessageTypeConfiguration.SERVER_USER_GET_INFO:
                 caseUserGetInfoByUID(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_ACTIVITY_REGISTER:
                 caseActivityRegister(basicMessage);break;

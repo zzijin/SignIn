@@ -16,7 +16,7 @@ public class ServerMessageTypeConfiguration {
     /**
      * 通过用户id获取用户信息
      */
-    final static public int SERVER_USER_GET_INFO_BY_UID=11000;
+    final static public int SERVER_USER_GET_INFO=11000;
     final static public int SERVER_ACTIVITY_REGISTER=12000;
     final static public int SERVER_ACTIVITY_GET_INFO=12001;
     final static public int SERVER_ACTIVITY_GET_NUMBER_OF_PEOPLE=12002;
