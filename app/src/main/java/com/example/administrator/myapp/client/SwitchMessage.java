@@ -7,6 +7,7 @@ import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.Info.UserInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.client.configuration.ServerMessageTypeConfiguration;
+import com.example.administrator.myapp.client.tool.ConvertTypeTool;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 import org.json.JSONException;
@@ -53,8 +54,8 @@ public class SwitchMessage {
     private void caseActivityRegister(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
-            infoManager.addActivityIDToRegisterActivity(json.getJson().getInt(MessageNameConfiguration.ACTIVITY_LIST_INDEX),
-                    json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID));
+            infoManager.clientSetActivityID(json.getJson().getInt(MessageNameConfiguration.REGISTER_ACTIVITY_INDEX),
+                    json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID),json.getJson().getString(MessageNameConfiguration.ACTIVITY_THEME));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -69,7 +70,7 @@ public class SwitchMessage {
                     json.getJson().getInt(MessageNameConfiguration.ACTIVITY_INVITATION_CODE),json.getJson().getString(MessageNameConfiguration.ACTIVITY_CHECK_IN_START_TIME),
                     json.getJson().getString(MessageNameConfiguration.ACTIVITY_CHECK_IN_END_TIME),json.getJson().getString(MessageNameConfiguration.ACTIVITY_START_TIME),
                     json.getJson().getString(MessageNameConfiguration.ACTIVITY_END_TIME));
-            infoManager.addActivityInfoToNullActivityByIndex(json.getJson().getInt(MessageNameConfiguration.ACTIVITY_LIST_INDEX),checkInActivityInfo);
+            infoManager.clientSetActivityInfo(checkInActivityInfo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -78,7 +79,7 @@ public class SwitchMessage {
     private void caseActivityJoin(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
-            infoManager.getJoinActivityStatus(json.getJson().getBoolean(MessageNameConfiguration.ACTIVITY_JOIN_STATUS),json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID));
+            infoManager.clientJoinActivityStatus(json.getJson().getBoolean(MessageNameConfiguration.ACTIVITY_JOIN_STATUS),json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,8 +88,9 @@ public class SwitchMessage {
     private void caseUserLoginInfo(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
-            infoManager.getLoginInfo(json.getJson().getBoolean(MessageNameConfiguration.LOGIN_STATUS),json.getJson().getInt(MessageNameConfiguration.LOGIN_ID),
-                    json.getJson().getString(MessageNameConfiguration.LOGIN_NAME));
+            infoManager.clientLoginStatus(json.getJson().getBoolean(MessageNameConfiguration.LOGIN_STATUS),json.getJson().getInt(MessageNameConfiguration.LOGIN_ID),
+                    json.getJson().getString(MessageNameConfiguration.LOGIN_NAME),
+                    ConvertTypeTool.StringToIntList(json.getJson().getString(MessageNameConfiguration.LOGIN_MANAGED_ACTIVITY_LIST),"-"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -97,8 +99,8 @@ public class SwitchMessage {
     private void caseUserRegister(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
-            json.getJson().getBoolean(MessageNameConfiguration.REGISTER_STATUS);
-
+            infoManager.clientRegisterAccountStatus(json.getJson().getBoolean(MessageNameConfiguration.REGISTER_STATUS),
+                    json.getJson().getInt(MessageNameConfiguration.LOGIN_ID),json.getJson().getString(MessageNameConfiguration.LOGIN_NAME));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -108,7 +110,7 @@ public class SwitchMessage {
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
             UserInfo userInfo=new UserInfo(json.getJson().getInt(MessageNameConfiguration.USER_ID),json.getJson().getString(MessageNameConfiguration.USER_NAME));
-            infoManager.addUserInfoToNullUserByIndex(json.getJson().getInt(MessageNameConfiguration.USER_LIST_INDEX),userInfo);
+            infoManager.clientSetUserInfo(userInfo);
         } catch (JSONException e) {
             e.printStackTrace();
         }

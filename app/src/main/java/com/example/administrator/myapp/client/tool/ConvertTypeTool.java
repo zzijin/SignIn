@@ -8,6 +8,8 @@ import android.util.Log;
 import com.example.administrator.myapp.client.configuration.SocketConfiguration;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConvertTypeTool {
     /**
@@ -130,5 +132,27 @@ public class ConvertTypeTool {
      */
     static public String ByteToBase64(byte[] bytes){
         return Base64.encodeToString(bytes,Base64.DEFAULT);
+    }
+
+    static public List<Integer> StringToIntList(String data,String spaceChar){
+        if(data==null){
+            return new ArrayList<>();
+        }
+
+        List<Integer> integers=new ArrayList<>();
+         String[] oneInfo=data.split(spaceChar);
+
+         for (int i=0;i<oneInfo.length;i++){
+             integers.add(Integer.getInteger(oneInfo[i]));
+         }
+         return integers;
+    }
+
+    static public String IntListToString(List<Integer> integers,String spaceChar){
+        String string="";
+        for (int i=0;i<integers.size();i++){
+            string=string+spaceChar+integers.get(i);
+        }
+        return string;
     }
 }

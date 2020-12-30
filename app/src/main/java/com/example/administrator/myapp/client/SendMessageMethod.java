@@ -31,7 +31,7 @@ public class SendMessageMethod {
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_GET_INFO_BY_UID,json.getMessage());
     }
 
-    public static boolean activityRegister(SocketClient socketClient, CheckInActivityInfo activityInfo){
+    public static boolean activityRegister(SocketClient socketClient, CheckInActivityInfo activityInfo,int activityIndex){
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.ACTIVITY_INITIATOR_ID,activityInfo.getActivityInitiatorID());
         json.putData(MessageNameConfiguration.ACTIVITY_THEME,activityInfo.getActivityTheme());

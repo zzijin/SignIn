@@ -19,6 +19,6 @@ public class ServerMessageTypeConfiguration {
     final static public int SERVER_USER_GET_INFO=11000;
     final static public int SERVER_ACTIVITY_REGISTER=12000;
     final static public int SERVER_ACTIVITY_GET_INFO=12001;
-    final static public int SERVER_ACTIVITY_GET_NUMBER_OF_PEOPLE=12002;
+    final static public int SERVER_ACTIVITY_GET_PARTICIPANT=12002;
     final static public int SERVER_ACTIVITY_JOIN=12004;
 }

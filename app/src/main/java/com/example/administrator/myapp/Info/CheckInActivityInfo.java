@@ -111,6 +111,10 @@ public class CheckInActivityInfo {
         activityParticipant=new ArrayList<>();
     }
 
+    /**
+     * 成功注册后，将注册的id填入类中
+     * @param activityID
+     */
     public void clientSetActivityID(int activityID){
         this.activityID=activityID;
     }
@@ -131,6 +135,7 @@ public class CheckInActivityInfo {
      * @param checkInActivityInfo
      */
     public void clientSetActivityInfo(CheckInActivityInfo checkInActivityInfo){
+        this.activityID=checkInActivityInfo.getActivityID();
         this.activityInitiatorID = checkInActivityInfo.getActivityInitiatorID();this.activityTheme = checkInActivityInfo.getActivityTheme();
         this.activityCheckInLongitude = checkInActivityInfo.getActivityCheckInLongitude();
         this.activityCheckInLatitude = checkInActivityInfo.getActivityCheckInLatitude();
@@ -151,7 +156,7 @@ public class CheckInActivityInfo {
      * 从本地或服务器获取到的活动参与用户列表
      * @param activityParticipant
      */
-    public void ClientSetActivityParticipantInfo(List<Integer> activityParticipant){
+    public void clientSetActivityParticipantInfo(List<Integer> activityParticipant){
         this.activityParticipant=activityParticipant;
     }
 

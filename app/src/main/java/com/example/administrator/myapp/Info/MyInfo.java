@@ -32,11 +32,17 @@ public class MyInfo {
      * @param myPassword
      */
     public void uiRegisterMyAccount(String myName,String myPassword){
-        this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=3;
-        managedActivities=new ArrayList<>();
+        this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();
+        myLoginStatus=3;
     }
 
+    public void clientRegisterSucceed(int myID,String myName){
+        clientLoginSucceedMyInfo(myID,myName,new ArrayList<Integer>());
+    }
 
+    public void clientRegisterFail(){
+        myLoginStatus=4;
+    }
 
     /////用户登录///////
 
@@ -47,7 +53,6 @@ public class MyInfo {
      */
     public void uiLoginMyAccount(int myID,String myPassword){
         this.myID=myID;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=0;
-        managedActivities=new ArrayList<>();
     }
 
     /**
@@ -62,8 +67,9 @@ public class MyInfo {
      * @param myID 用户id
      * @param myName 用户昵称
      */
-    public void clientLoginSucceedMyInfo(int myID,String myName){
-        this.myID=myID;this.myName=myName;myLoginStatus=1;
+    public void clientLoginSucceedMyInfo(int myID,String myName,List<Integer> managedActivities){
+        this.myID=myID;this.myName=myName;this.managedActivities=managedActivities;
+        myLoginStatus=1;
     }
 
     /////用户申请加入活动///////
@@ -80,10 +86,10 @@ public class MyInfo {
      * UI获取加入失败列表
      * @return 失败列表
      */
-    public int[] uiGetFailJoinList(){
-        int[] fail=new int[failJoinActivity.size()];
+    public List<Integer> uiGetFailJoinList(){
+        List<Integer> fail=new ArrayList<>();
         for(int i=0;i<failJoinActivity.size();i++){
-            fail[i]=failJoinActivity.get(i);
+            fail.add(failJoinActivity.get(i));
         }
         failJoinActivity.clear();
         return fail;
