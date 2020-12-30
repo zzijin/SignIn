@@ -20,26 +20,94 @@ public class MyInfo {
     private List<Integer> joinActivity;
     private List<Integer> waitJoinStatusActivity;
     private List<Integer> failJoinActivity;
+    private List<Integer> managedActivities;
     //-1:未登录；0:登录中;1:登录成功;2:登录失败;3:注册中;4:注册失败;5:注册成功
     private int myLoginStatus=-1;
 
-    public MyInfo(){
-        myLoginStatus=-1;
-    }
+    /////用户注册///////
 
-    public void loginMyAccount(int myID,String myPassword){
-        this.myID=myID;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=0;
-    }
-
-    public void registerMyAccount(String myName,String myPassword){
+    /**
+     * UI界面注册用户信息
+     * @param myName
+     * @param myPassword
+     */
+    public void uiRegisterMyAccount(String myName,String myPassword){
         this.myName=myName;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=3;
+        managedActivities=new ArrayList<>();
     }
 
-    public void addWaitJoin(int activityID){
+
+
+    /////用户登录///////
+
+    /**
+     * UI登录用户信息
+     * @param myID
+     * @param myPassword
+     */
+    public void uiLoginMyAccount(int myID,String myPassword){
+        this.myID=myID;this.myPassword=myPassword;joinActivity=new ArrayList<>();waitJoinStatusActivity=new ArrayList<>();failJoinActivity=new ArrayList<>();myLoginStatus=0;
+        managedActivities=new ArrayList<>();
+    }
+
+    /**
+     * 服务器通知用户登录失败
+     */
+    public void clientLoginFailMyInfo(){
+        myLoginStatus=2;
+    }
+
+    /**
+     * 服务器通知用户登录成功
+     * @param myID 用户id
+     * @param myName 用户昵称
+     */
+    public void clientLoginSucceedMyInfo(int myID,String myName){
+        this.myID=myID;this.myName=myName;myLoginStatus=1;
+    }
+
+    /////用户申请加入活动///////
+
+    /**
+     * UI界面申请加入活动
+     * @param activityID
+     */
+    public void uiJoinActivity(int activityID){
         waitJoinStatusActivity.add(activityID);
     }
 
-    public void addFailActivity(int activityID){
+    /**
+     * UI获取加入失败列表
+     * @return 失败列表
+     */
+    public int[] uiGetFailJoinList(){
+        int[] fail=new int[failJoinActivity.size()];
+        for(int i=0;i<failJoinActivity.size();i++){
+            fail[i]=failJoinActivity.get(i);
+        }
+        failJoinActivity.clear();
+        return fail;
+    }
+
+    /**
+     *  服务器通知活动加入成功
+     * @param activityID
+     */
+    public void clientJoinSuccessActivity(int activityID){
+        for (int i=0;i<waitJoinStatusActivity.size();i++){
+            if (waitJoinStatusActivity.get(i)==activityID){
+                joinActivity.add(activityID);
+                waitJoinStatusActivity.remove(i);
+                return;
+            }
+        }
+    }
+
+    /**
+     * 服务器通知活动加入失败
+     * @param activityID
+     */
+    public void clientJoinFailActivity(int activityID){
         for (int i=0;i<waitJoinStatusActivity.size();i++){
             if (waitJoinStatusActivity.get(i)==activityID){
                 failJoinActivity.add(activityID);
@@ -49,32 +117,7 @@ public class MyInfo {
         }
     }
 
-    public void loginFailMyInfo(){
-        myLoginStatus=2;
-    }
-
-    public void loginSucceedMyInfo(int myID,String myName){
-        this.myID=myID;this.myName=myName;myLoginStatus=1;
-    }
-
-    public int[] getFailJoinList(){
-        int[] fail=new int[failJoinActivity.size()];
-        for(int i=0;i<failJoinActivity.size();i++){
-            fail[i]=failJoinActivity.get(i);
-        }
-        failJoinActivity.clear();
-        return fail;
-    }
-
-    public void addJoinActivity(int activityID){
-        for (int i=0;i<waitJoinStatusActivity.size();i++){
-            if (waitJoinStatusActivity.get(i)==activityID){
-                joinActivity.add(activityID);
-                waitJoinStatusActivity.remove(i);
-                return;
-            }
-        }
-    }
+    /////获取我的信息的基本方法///////
 
     public String getMyEmail() {
         return myEmail;

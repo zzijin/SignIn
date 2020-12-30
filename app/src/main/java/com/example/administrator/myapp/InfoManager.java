@@ -4,7 +4,10 @@ package com.example.administrator.myapp;
 import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.Info.MyInfo;
 import com.example.administrator.myapp.Info.UserInfo;
+import com.example.administrator.myapp.client.SendMessageMethod;
+import com.example.administrator.myapp.client.SocketClient;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,166 +18,105 @@ public class InfoManager {
     boolean userInfoIsNew=false;
     MyInfo myInfo;
 
+    /////基本构造函数///////
     public InfoManager(){
         checkInActivityInfoList=new LinkedList<>();
         userInfoList=new LinkedList<>();
         myInfo=new MyInfo();
     }
+    ///////////////我的账户////////////////////
+    /////用户登录///////
 
-    public MyInfo getMyInfo() {
-        return myInfo;
+    /**
+     * UI登录用户信息
+     * @param myID
+     * @param myPassword
+     */
+    public void uiLoginMyAccount(int myID,String myPassword){
+        myInfo.uiLoginMyAccount(myID,myPassword);
     }
 
     /**
-     * 向活动列表添加活动(申请注册的活动)
-     * @param checkInActivityInfo
-     * @return
+     * 服务器通知用户登录状态
      */
-    public int addCheckInActivityInfo(CheckInActivityInfo checkInActivityInfo){
-        checkInActivityInfoList.add(checkInActivityInfo);
-        return checkInActivityInfoList.size()-1;
-    }
-
-    public void registerMyAccount(){
-
-    }
-
-    /**
-     * 向活动列表添加空的活动
-     * @param activityID
-     * @return
-     */
-    public int[] addActivityNullInfo(List<Integer> activityID){
-        int[] activityIndex=new int[activityID.size()];
-        for (int i=0;i<activityID.size();i++){
-            activityIndex[i]=addCheckInActivityInfo(new CheckInActivityInfo(activityID.get(i)));
-        }
-        return activityIndex;
-    }
-
-    /**
-     * 获取到来自服务器的信息后将该信息替换列表中的空信息
-     * @param index
-     * @param checkInActivityInfo
-     * @return
-     */
-    public boolean addActivityInfoToNullActivityByIndex(int index,CheckInActivityInfo checkInActivityInfo){
-        if(index<checkInActivityInfoList.size()){
-            checkInActivityInfoList.set(index,checkInActivityInfo);
-
-            return true;
-        }
-        else return false;
-    }
-
-    public int addUserNullInfo(int userID){
-        userInfoList.add(new UserInfo(userID));
-        return userInfoList.size()-1;
-    }
-
-    public boolean addUserInfoToNullUserByIndex(int index,UserInfo userInfo){
-        if(index<userInfoList.size()){
-            userInfoList.set(index,userInfo);
-            return true;
-        }
-        else return false;
-    }
-
-    public void getLoginInfo(boolean loginStatus,int myID,String myName){
+    public void clientLoginStatus(boolean loginStatus,int myID,String myName){
         if(loginStatus){
-            myInfo.loginSucceedMyInfo(myID,myName);
+            myInfo.clientLoginSucceedMyInfo(myID,myName);
         }
         else {
-            myInfo.loginFailMyInfo();
+            myInfo.clientLoginFailMyInfo();
         }
     }
 
-    public void getJoinActivityStatus(boolean status,int activityID){
-        if(status){
-            myInfo.addJoinActivity(activityID);
-        }
-        else {
-            myInfo.addFailActivity(activityID);
-        }
+    /////用户注册///////
 
+    public void uiRegisterMyAccount(String myName,String myPassword){
+        myInfo.uiRegisterMyAccount(myName,myPassword);
     }
 
-    public boolean addActivityIDToRegisterActivity(int index,int activityID){
-        if(index<checkInActivityInfoList.size()){
-            checkInActivityInfoList.get(index).setActivityID(activityID);
-            return true;
-        }
-        else return false;
-    }
+    ///////////////所有用户////////////////////
 
-    public void activityJoin(int activityID){
-        myInfo.addJoinActivity(activityID);
-    }
-
+    /////向服务器/本地获取用户信息///////
+    /////步骤：1.从服务器/本地读取获取需要用户id(占位) 2.向服务器/本地读取用户信息
 
     /**
-     * 向用户列表添加用户
+     * 界面获取某个用户的信息
+     * @param socketClient
+     * @param userID
+     */
+    public void uiAddUserInfo(SocketClient socketClient,int userID){
+        userInfoList.add(new UserInfo(userID));
+        SendMessageMethod.userGetInfoByID(socketClient,userID);
+    }
+
+    /**
+     * 设置指定id的用户信息
      * @param userInfo
      */
-    public void addUserInfo(UserInfo userInfo){
-        userInfoList.add(userInfo);
-    }
-
-    /**
-     * 通过用户ID获取用户信息
-     * @param userID
-     * @return
-     */
-    public UserInfo getUserInfoByUserID(int userID){
-        for (int i=0;i<userInfoList.size();i++){
-            if(userID==userInfoList.get(i).getUserID()){
-                return userInfoList.get(i);
+    public void clientSetUserInfo(UserInfo userInfo){
+        for(int i=0;i<userInfoList.size();i++){
+            if(userInfoList.get(i).getUserID()==userInfo.getUserID()){
+                userInfoList.get(i).clientSetUserInfo(userInfo);
+                break;
             }
         }
-        return null;
     }
 
-    /**
-     * 获取活动信息通过活动ID
-     * @param activityID
-     * @return
-     */
-    public CheckInActivityInfo getCheckInActivityInfoByActivityID(int activityID) {
+    ///////////////所有活动////////////////////
+    /////用户注册活动///////
+    public void uiRegisterActivityInfo(SocketClient socketClient,int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
+                                  int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime, String activityStartTime, String activityEndTime){
+        CheckInActivityInfo checkInActivityInfo=new CheckInActivityInfo(activityInitiatorID, activityTheme, activityCheckInLongitude, activityCheckInLatitude,
+                activityInvitationCode, activityCheckInStartTime, activityCheckInEndTime, activityStartTime, activityEndTime);
+        checkInActivityInfoList.add(checkInActivityInfo);
+        SendMessageMethod.activityRegister(socketClient,checkInActivityInfo);
+    }
+
+    public void clientSetActivityID(int activityIndex,int activityID,String activityTheme){
+        if(activityIndex<checkInActivityInfoList.size()){
+            if (checkInActivityInfoList.get(activityIndex).getActivityTheme().equals(activityTheme)){
+                checkInActivityInfoList.get(activityIndex).clientSetActivityID(activityID);
+            }
+        }
+    }
+    /////用户向服务器请求活动信息///////
+    /////步骤：1.从服务器/本地读取获取需要的活动id 2.向服务器/本地读取活动信息 3.向服务器/本地读取活动参与人数
+
+    public void uiGetActivityInfo(SocketClient socketClient,int activityID){
+        checkInActivityInfoList.add(new CheckInActivityInfo(activityID));
+        SendMessageMethod.activityGetInfo(socketClient,activityID);
+    }
+
+    public void clientSetActivityInfo(CheckInActivityInfo checkInActivityInfo){
         for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(activityID==checkInActivityInfoList.get(i).getActivityID()){
-                return checkInActivityInfoList.get(i);
+            if(checkInActivityInfoList.get(i).getActivityID()==checkInActivityInfo.getActivityID()){
+                checkInActivityInfoList.get(i).clientSetActivityInfo(checkInActivityInfo);
+                break;
             }
         }
-        return null;
     }
 
-    /**
-     * 获取活动信息通过活动发起者ID
-     * @param initiatorID
-     * @return
-     */
-    public CheckInActivityInfo getCheckInActivityInfoByInitiatorID(int initiatorID) {
-        for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(initiatorID==checkInActivityInfoList.get(i).getActivityInitiatorID()){
-                return checkInActivityInfoList.get(i);
-            }
-        }
-        return null;
-    }
+    public void ClientSetActivityParticipantInfo(List<Integer> activityParticipant){
 
-    public LinkedList<CheckInActivityInfo> getCheckInActivityInfoList() {
-        return checkInActivityInfoList;
-    }
-
-    public LinkedList<UserInfo> getUserInfoList() {
-        return userInfoList;
-    }
-
-    public boolean getActivityIsNew(){
-        return activityIsNew;
-    }
-
-    public boolean getUserIsNew(){
-        return userInfoIsNew;
     }
 }
