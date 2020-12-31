@@ -60,6 +60,11 @@ public class Conn {
      * 将接收到的数据进行分类管理
      */
     private SwitchMessage switchMessage;
+    /**
+     * 发送心跳包线程
+     */
+    private SendHeartbeatThread sendHeartbeatThread;
+    private boolean connIsFree;
 
     /**
      * 连接服务器成功后建立conn类
@@ -70,12 +75,13 @@ public class Conn {
         this.mSocketClient=socketClient;
         this.mSocket=socket;
         this.infoManager = infoManager;
-        switchMessage=new SwitchMessage(this.infoManager);
+        switchMessage=new SwitchMessage(infoManager);
         buffSize= SocketConfiguration.BUFF_SIZE;
         readBuff=new byte[buffSize];
         buffStartIndex=0;
         unpackData=new UnpackData();
         connStatus=true;
+        connIsFree=true;
         initThread();
     }
 
@@ -114,6 +120,7 @@ public class Conn {
     public boolean sendMessage(byte[] message){
         if(connStatus&&message!=null){
             try {
+                Log.i("Socket连接","发送消息,长度:"+message.length);
                 mSocket.getOutputStream().write(message);
                 return true;
             } catch (IOException e) {
@@ -129,8 +136,10 @@ public class Conn {
     public void initThread(){
         receiveThread=new ReceiveThread();
         processingDataThread=new ProcessingDataThread();
+        sendHeartbeatThread=new SendHeartbeatThread();
         receiveThread.start();
         processingDataThread.start();
+        sendHeartbeatThread.start();
     }
 
     /**
@@ -176,6 +185,7 @@ public class Conn {
                 try {
                     Log.i("Socket接收","接收新数据");
                     addBuffStartIndex(mSocket.getInputStream().read(getReadBuff()));
+                    connIsFree=false;
                     sleep(500);
                 } catch (IOException e) {
                     errorCloseConn(e.toString());
@@ -195,8 +205,19 @@ public class Conn {
         @Override
         public void run() {
             while (connStatus){
+                Log.i("Socket处理","处理数据");
                 BasicMessage basicMessage=unpackData.processingInitialData();
-                switchMessage.switchMessageManager(basicMessage);
+                if(basicMessage!=null){
+                    Log.i("Socket处理","执行数据");
+                    switchMessage.switchMessageManager(basicMessage);
+                }
+                else {
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -205,17 +226,35 @@ public class Conn {
      * 每过一段时间发送心跳包验证是否与服务器连接正常
      */
     class SendHeartbeatThread extends Thread{
+       private int connIsFreeCount;
+        SendHeartbeatThread(){
+            connIsFreeCount=1;
+        }
         @Override
         public void run() {
             while (connStatus){
-                try {
-                    sleep(500);
-                    String heartbeat="我思";
-                    mSocketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_HEARTBEAT,heartbeat.getBytes("utf-8"));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                if(connIsFreeCount<3){
+                    if (connIsFree){
+                        try {
+                            String heartbeat="我思";
+                            mSocketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_HEARTBEAT,heartbeat.getBytes("utf-8"));
+                            connIsFreeCount++;
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        connIsFree=true;
+                        connIsFreeCount=1;
+                    }
+                    try {
+                        sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    errorCloseConn("服务器长期无响应,心跳包计时超时:"+connIsFreeCount+"*5秒");
                 }
             }
         }

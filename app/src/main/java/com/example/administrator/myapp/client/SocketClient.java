@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import static java.lang.Thread.sleep;
+
 /**
  * 功能明确：连接服务器、关闭服务器、向activity提供发送消息方法、存放该app的所有与服务器相关的数据
  * 是连接activity与conn的中间类
@@ -26,7 +28,7 @@ public class SocketClient {
 
     public SocketClient(InfoManager infoManager){
         this.infoManager = infoManager;
-        startClientSocket();
+
     }
 
     public boolean startClientSocket(){
@@ -75,7 +77,29 @@ public class SocketClient {
      */
     public boolean sendMessage(int type,byte[] data){
         PackData packData=new PackData(type,data);
-        return conn.sendMessage(packData.getPackData());
+        SendMessageThread sendMessageThread=new SendMessageThread(packData);
+        sendMessageThread.start();
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return sendMessageThread.getMessageSend();
     }
 
+    public class SendMessageThread extends Thread{
+        private PackData packData;
+        private boolean messageSend;
+
+        SendMessageThread(PackData packData){
+            this.packData=packData;
+        }
+        @Override
+        public void run() {
+            messageSend=conn.sendMessage(packData.getPackData());
+        }
+        public boolean getMessageSend(){
+            return messageSend;
+        }
+    }
 }

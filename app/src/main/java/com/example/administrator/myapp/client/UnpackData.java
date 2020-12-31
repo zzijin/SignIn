@@ -54,6 +54,7 @@ public class UnpackData {
         int initialDataSize=initialData.size();
         if(initialDataSize<1)
         {
+            Log.i("Socket处理","原始数据链大小小于0");
             return null;
         }
 

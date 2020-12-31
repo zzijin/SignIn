@@ -23,11 +23,14 @@ public class InfoManager {
     private SocketClient socketClient;
 
     /////基本构造函数///////
-    public InfoManager(SocketClient socketClient){
+    public InfoManager(){
+        this.checkInActivityInfoList=new LinkedList<>();
+        this.userInfoList=new LinkedList<>();
+        this.myInfo=new MyInfo();
+    }
+
+    public void setSocketClient(SocketClient socketClient){
         this.socketClient=socketClient;
-        checkInActivityInfoList=new LinkedList<>();
-        userInfoList=new LinkedList<>();
-        myInfo=new MyInfo();
     }
     ///////////////我的账户////////////////////
     /////用户登录///////
@@ -38,8 +41,8 @@ public class InfoManager {
      * @param myPassword
      */
     public void uiLoginMyAccount(int myID,String myPassword){
-        myInfo.uiLoginMyAccount(myID,myPassword);
-        SendMessageMethod.myLoginByID(socketClient,myID,myPassword);
+        this.myInfo.uiLoginMyAccount(myID,myPassword);
+        SendMessageMethod.myLoginByID(this.socketClient,myID,myPassword);
     }
 
     /**
@@ -47,7 +50,7 @@ public class InfoManager {
      */
     public void clientLoginStatus(boolean loginStatus,MyInfo myInfo){
         if(loginStatus){
-            myInfo.clientLoginSucceedMyInfo(myInfo);
+            this.myInfo.clientLoginSucceedMyInfo(myInfo);
             //获取用户相关活动信息
             List<Integer> managedActivities=myInfo.getManagedActivities();
             List<Integer> initiatorActivities=myInfo.getInitiatorActivities();
@@ -63,7 +66,7 @@ public class InfoManager {
             }
         }
         else {
-            myInfo.clientLoginFailMyInfo();
+            this.myInfo.clientLoginFailMyInfo();
         }
     }
 
@@ -77,8 +80,8 @@ public class InfoManager {
      * @return 返回null则发送失败
      */
     public boolean uiRegisterMyAccount(String myName,String myPassword){
-        myInfo.uiRegisterMyAccount(myName,myPassword);
-        return SendMessageMethod.myRegister(socketClient,myName,myPassword);
+        this.myInfo.uiRegisterMyAccount(myName,myPassword);
+        return SendMessageMethod.myRegister(this.socketClient,myName,myPassword);
     }
 
     /**
@@ -103,8 +106,8 @@ public class InfoManager {
      * @return 返回null则发送失败
      */
     public boolean uiJoinActivity(int activityID){
-        myInfo.uiJoinActivity(activityID);
-        return SendMessageMethod.activityJoin(socketClient,myInfo.getMyID(),activityID);
+        this.myInfo.uiJoinActivity(activityID);
+        return SendMessageMethod.activityJoin(this.socketClient,this.myInfo.getMyID(),activityID);
     }
 
     /**
@@ -112,7 +115,7 @@ public class InfoManager {
      * @return
      */
     public List<Integer> uiGetFailJoinList(){
-        return myInfo.uiGetFailJoinList();
+        return this.myInfo.uiGetFailJoinList();
     }
 
     /**
@@ -122,10 +125,10 @@ public class InfoManager {
      */
     public void clientJoinActivityStatus(boolean joinStatus,int activityID){
         if(joinStatus){
-            myInfo.clientJoinSuccessActivity(activityID);
+            this.myInfo.clientJoinSuccessActivity(activityID);
         }
         else {
-            myInfo.clientJoinSuccessActivity(activityID);
+            this.myInfo.clientJoinSuccessActivity(activityID);
         }
     }
 
@@ -139,13 +142,13 @@ public class InfoManager {
      * @param userID 返回null则等待
      */
     public UserInfo uiAddUserInfo(int userID){
-        for(int i=0;i<userInfoList.size();i++){
-            if(userInfoList.get(i).getUserID()==userID){
-                return userInfoList.get(i);
+        for(int i=0;i<this.userInfoList.size();i++){
+            if(this.userInfoList.get(i).getUserID()==userID){
+                return this.userInfoList.get(i);
             }
         }
-        userInfoList.add(new UserInfo(userID));
-        SendMessageMethod.userGetInfoByID(socketClient,userID);
+        this.userInfoList.add(new UserInfo(userID));
+        SendMessageMethod.userGetInfoByID(this.socketClient,userID);
         return null;
     }
 
@@ -154,9 +157,9 @@ public class InfoManager {
      * @param userInfo
      */
     public void clientSetUserInfo(UserInfo userInfo){
-        for(int i=0;i<userInfoList.size();i++){
-            if(userInfoList.get(i).getUserID()==userInfo.getUserID()){
-                userInfoList.get(i).clientSetUserInfo(userInfo);
+        for(int i=0;i<this.userInfoList.size();i++){
+            if(this.userInfoList.get(i).getUserID()==userInfo.getUserID()){
+                this.userInfoList.get(i).clientSetUserInfo(userInfo);
                 break;
             }
         }
@@ -182,9 +185,9 @@ public class InfoManager {
                                   int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime, String activityStartTime, String activityEndTime){
         CheckInActivityInfo checkInActivityInfo=new CheckInActivityInfo(activityInitiatorID, activityTheme, activityCheckInLongitude, activityCheckInLatitude,
                 activityInvitationCode, activityCheckInStartTime, activityCheckInEndTime, activityStartTime, activityEndTime);
-        int index=checkInActivityInfoList.size();
-        checkInActivityInfoList.add(checkInActivityInfo);
-        return SendMessageMethod.activityRegister(socketClient,checkInActivityInfo,index);
+        int index=this.checkInActivityInfoList.size();
+        this.checkInActivityInfoList.add(checkInActivityInfo);
+        return SendMessageMethod.activityRegister(this.socketClient,checkInActivityInfo,index);
     }
 
     /**
@@ -194,9 +197,9 @@ public class InfoManager {
      * @param activityTheme
      */
     public void clientSetActivityID(int activityIndex,int activityID,String activityTheme){
-        if(activityIndex<checkInActivityInfoList.size()){
-            if (checkInActivityInfoList.get(activityIndex).getActivityTheme().equals(activityTheme)){
-                checkInActivityInfoList.get(activityIndex).clientSetActivityID(activityID);
+        if(activityIndex<this.checkInActivityInfoList.size()){
+            if (this.checkInActivityInfoList.get(activityIndex).getActivityTheme().equals(activityTheme)){
+                this.checkInActivityInfoList.get(activityIndex).clientSetActivityID(activityID);
             }
         }
     }
@@ -210,12 +213,12 @@ public class InfoManager {
      * @return 返回值为null则等待
      */
     public CheckInActivityInfo uiGetActivityInfo(int activityID){
-        for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(checkInActivityInfoList.get(i).getActivityID()==activityID){
-                return checkInActivityInfoList.get(i);
+        for (int i=0;i<this.checkInActivityInfoList.size();i++){
+            if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                return this.checkInActivityInfoList.get(i);
             }
         }
-        checkInActivityInfoList.add(new CheckInActivityInfo(activityID));
+        this.checkInActivityInfoList.add(new CheckInActivityInfo(activityID));
         SendMessageMethod.activityGetInfo(socketClient,activityID);
         Log.i("信息管理","获取指定活动ID信息:"+activityID);
         return null;
@@ -226,13 +229,13 @@ public class InfoManager {
      * @param checkInActivityInfo
      */
     public void clientSetActivityInfo(CheckInActivityInfo checkInActivityInfo){
-        for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(checkInActivityInfoList.get(i).getActivityID()==checkInActivityInfo.getActivityID()){
-                checkInActivityInfoList.get(i).clientSetActivityInfo(checkInActivityInfo);
+        for (int i=0;i<this.checkInActivityInfoList.size();i++){
+            if(this.checkInActivityInfoList.get(i).getActivityID()==checkInActivityInfo.getActivityID()){
+                this.checkInActivityInfoList.get(i).clientSetActivityInfo(checkInActivityInfo);
                 return;
             }
         }
-        checkInActivityInfoList.add(checkInActivityInfo);
+        this.checkInActivityInfoList.add(checkInActivityInfo);
         Log.i("信息管理","获取到不在活动列表中的活动");
     }
 
@@ -242,9 +245,9 @@ public class InfoManager {
      * @param activityID
      */
     public void clientSetActivityParticipantInfo(List<Participant> activityParticipant, int activityID){
-        for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(checkInActivityInfoList.get(i).getActivityID()==activityID){
-                checkInActivityInfoList.get(i).clientSetActivityParticipantInfo(activityParticipant);
+        for (int i=0;i<this.checkInActivityInfoList.size();i++){
+            if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                this.checkInActivityInfoList.get(i).clientSetActivityParticipantInfo(activityParticipant);
                 return;
             }
         }
@@ -257,18 +260,18 @@ public class InfoManager {
      * @return 返回null则等待
      */
     public List<Participant> uiGetActivityParticipant(int activityID){
-        for (int i=0;i<checkInActivityInfoList.size();i++){
-            if(checkInActivityInfoList.get(i).getActivityID()==activityID){
-                if(checkInActivityInfoList.get(i).uiGetActivityParticipantStatus()){
-                    return checkInActivityInfoList.get(i).getActivityParticipant();
+        for (int i=0;i<this.checkInActivityInfoList.size();i++){
+            if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                if(this.checkInActivityInfoList.get(i).uiGetActivityParticipantStatus()){
+                    return this.checkInActivityInfoList.get(i).getActivityParticipant();
                 }
                 else {
-                    SendMessageMethod.activityGetParticipantList(socketClient,activityID);
+                    SendMessageMethod.activityGetParticipantList(this.socketClient,activityID);
                     return null;
                 }
             }
         }
-        SendMessageMethod.activityGetInfo(socketClient,activityID);
+        SendMessageMethod.activityGetInfo(this.socketClient,activityID);
         return null;
     }
 

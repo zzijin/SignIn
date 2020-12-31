@@ -48,9 +48,7 @@
         android:textSize="15dp"
         android:textColor="@color/colorButtonEnabledFalse"
         android:layout_gravity="center"
-        android:clickable="true"
         android:text="@string/login_zh"
-        android:enabled="false"
         />
     <TextView
         android:id="@+id/text_load"

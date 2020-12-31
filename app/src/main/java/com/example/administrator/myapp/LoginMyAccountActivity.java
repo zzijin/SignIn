@@ -39,9 +39,11 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_my_account);
         //getSupportActionBar().hide();
+        setContentView(R.layout.activity_login_my_account);
+
         SocketApplication socketApplication =(SocketApplication) getApplication();
+        socketApplication.startClientSocketThread();
         infoManager=socketApplication.getInfoManager();
 
         editAccount=findViewById(R.id.edit_account);
@@ -92,14 +94,14 @@ public class LoginMyAccountActivity extends AppCompatActivity {
             if(s.length()>=6){
                 textPassword.setText(R.string.password_true_zh);
                 boolPassword=true;
-                if(boolAccount&&boolPassword){
+                if(boolPassword){
                     buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
                     buttonLogin.setEnabled(true);
                 }
             }
             else {
                 textPassword.setText(R.string.password_short_zh);
-                if(boolAccount&&boolPassword){
+                if(boolPassword){
                     buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
                     buttonLogin.setEnabled(false);
                 }
@@ -114,12 +116,19 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     View.OnClickListener cButtonLogin=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.i("输入信息","账号:"+editAccount.getText().toString()+"；密码："+editPassword.getText().toString());
-            infoManager.uiLoginMyAccount(Integer.getInteger(editAccount.getText().toString()),editPassword.getText().toString());
-            //动画进行前记录原始高宽度
-            lineWidth=lineInput.getWidth();
-            lineHeight=lineInput.getHeight();
-            setInputAnimator();
+            String accountString=editAccount.getText().toString();
+            String password=editPassword.getText().toString();
+            if(accountString==null||accountString.length()==0){
+                Toast.makeText(LoginMyAccountActivity.this,"请输入数字账号",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Log.i("输入信息","账号:"+accountString+"；密码："+password);
+                infoManager.uiLoginMyAccount(Integer.valueOf(accountString),password);
+                //动画进行前记录原始高宽度
+                lineWidth=lineInput.getWidth();
+                lineHeight=lineInput.getHeight();
+                setInputAnimator();
+            }
         }
     };
 
@@ -216,6 +225,7 @@ public class LoginMyAccountActivity extends AppCompatActivity {
                     Toast.makeText(LoginMyAccountActivity.this,"登录验证失败",Toast.LENGTH_SHORT).show();
 
                 }
+                Log.i("登录页面","用户状态:"+infoManager.getMyStatusString());
             }
             @Override
             public void onAnimationCancel(Animator animation) {
