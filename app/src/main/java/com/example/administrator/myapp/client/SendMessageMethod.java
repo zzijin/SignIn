@@ -1,7 +1,5 @@
 package com.example.administrator.myapp.client;
 
-import android.app.Activity;
-
 import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.client.configuration.ClientMessageTypeConfiguration;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
@@ -15,14 +13,14 @@ public class SendMessageMethod {
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.REGISTER_NAME,userName);
         json.putData(MessageNameConfiguration.REGISTER_PASSWORD,userPassword);
-        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_REGISTER,json.getMessage());
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_REGISTER,json.getMessage());
     }
 
     public static boolean myLoginByID(SocketClient socketClient,int myID,String myPassword){
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.LOGIN_ID,myID);
         json.putData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_LOGIN_INFO_BY_ID,json.getMessage());
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_LOGIN_INFO_BY_ID,json.getMessage());
     }
 
     public static boolean userGetInfoByID(SocketClient socketClient,int userID){
@@ -55,6 +53,6 @@ public class SendMessageMethod {
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.USER_ID,myID);
         json.putData(MessageNameConfiguration.ACTIVITY_ID,activityID);
-        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_ACTIVITY_JOIN,json.getMessage());
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_JOIN_ACTIVITY,json.getMessage());
     }
 }

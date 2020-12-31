@@ -151,7 +151,29 @@ public class ConvertTypeTool {
     static public String IntListToString(List<Integer> integers,String spaceChar){
         String string="";
         for (int i=0;i<integers.size();i++){
-            string=string+spaceChar+integers.get(i);
+            string=string+spaceChar+integers.get(i).toString();
+        }
+        return string;
+    }
+
+    static public List<Boolean> StringToBooleanList(String data,String spaceChar){
+        if(data==null){
+            return new ArrayList<>();
+        }
+
+        List<Boolean> integers=new ArrayList<>();
+        String[] oneInfo=data.split(spaceChar);
+
+        for (int i=0;i<oneInfo.length;i++){
+            integers.add(Boolean.getBoolean(oneInfo[i]));
+        }
+        return integers;
+    }
+
+    static public String BooleanListToString(List<Boolean> integers,String spaceChar){
+        String string="";
+        for (int i=0;i<integers.size();i++){
+            string=string+spaceChar+integers.get(i).toString();
         }
         return string;
     }

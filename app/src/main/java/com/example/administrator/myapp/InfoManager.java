@@ -41,9 +41,9 @@ public class InfoManager {
     /**
      * 服务器通知用户登录状态
      */
-    public void clientLoginStatus(boolean loginStatus,int myID,String myName,List<Integer> managedList){
+    public void clientLoginStatus(boolean loginStatus,MyInfo myInfo){
         if(loginStatus){
-            myInfo.clientLoginSucceedMyInfo(myID,myName,managedList);
+            myInfo.clientLoginSucceedMyInfo(myInfo);
         }
         else {
             myInfo.clientLoginFailMyInfo();
@@ -64,15 +64,14 @@ public class InfoManager {
     /**
      * 从服务器获取注册信息
      * @param status
-     * @param myID
-     * @param myName
+     * @param myInfo
      */
-    public void clientRegisterAccountStatus(boolean status,int myID,String myName){
+    public void clientRegisterAccountStatus(boolean status,MyInfo myInfo){
         if(status){
-            myInfo.clientRegisterSucceed(myID,myName);
+            this.myInfo.clientRegisterSucceed(myInfo);
         }
         else {
-            myInfo.clientRegisterFail();
+            this.myInfo.clientRegisterFail();
         }
     }
 
@@ -210,7 +209,7 @@ public class InfoManager {
      * @param activityParticipant
      * @param activityID
      */
-    public void ClientSetActivityParticipantInfo(List<Integer> activityParticipant,int activityID){
+    public void clientSetActivityParticipantInfo(List<CheckInActivityInfo.Participant> activityParticipant, int activityID){
         for (int i=0;i<checkInActivityInfoList.size();i++){
             if(checkInActivityInfoList.get(i).getActivityID()==activityID){
                 checkInActivityInfoList.get(i).clientSetActivityParticipantInfo(activityParticipant);

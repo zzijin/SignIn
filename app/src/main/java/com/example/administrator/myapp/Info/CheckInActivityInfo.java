@@ -64,7 +64,7 @@ public class CheckInActivityInfo {
     /**
      * 活动参与者
      */
-    private List<Integer> activityParticipant;
+    private List<Participant> activityParticipant;
 
     /////基本构造函数///////
     /**
@@ -81,12 +81,13 @@ public class CheckInActivityInfo {
      * @param activityEndTime
      */
     public CheckInActivityInfo(int activityID,int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
-                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime, String activityStartTime, String activityEndTime){
+                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
+                               String activityStartTime, String activityEndTime){
         this.activityID=activityID;
         this.activityInitiatorID = activityInitiatorID;this.activityTheme = activityTheme;this.activityCheckInLongitude = activityCheckInLongitude;
         this.activityCheckInLatitude = activityCheckInLatitude;this.activityInvitationCode = activityInvitationCode;this.activityCheckInStartTime=activityCheckInStartTime;
         this.activityCheckInEndTime = activityCheckInEndTime;this.activityStartTime = activityStartTime;this.activityEndTime = activityEndTime;
-        activityParticipant=new ArrayList<>();
+        this.activityParticipant=activityParticipant;
     }
 
     /////用户注册活动///////
@@ -104,11 +105,12 @@ public class CheckInActivityInfo {
      * @param activityEndTime
      */
     public CheckInActivityInfo(int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
-                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime, String activityStartTime, String activityEndTime){
+                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
+                               String activityStartTime, String activityEndTime){
         this.activityInitiatorID = activityInitiatorID;this.activityTheme = activityTheme;this.activityCheckInLongitude = activityCheckInLongitude;
         this.activityCheckInLatitude = activityCheckInLatitude;this.activityInvitationCode = activityInvitationCode;this.activityCheckInStartTime=activityCheckInStartTime;
         this.activityCheckInEndTime = activityCheckInEndTime;this.activityStartTime = activityStartTime;this.activityEndTime = activityEndTime;
-        activityParticipant=new ArrayList<>();
+        this.activityParticipant=new ArrayList<>();
     }
 
     /**
@@ -127,7 +129,6 @@ public class CheckInActivityInfo {
      */
     public CheckInActivityInfo(int activityID){
         this.activityID=activityID;
-        activityParticipant=new ArrayList<>();
     }
 
     /**
@@ -142,28 +143,27 @@ public class CheckInActivityInfo {
         this.activityInvitationCode = checkInActivityInfo.getActivityInvitationCode();
         this.activityCheckInStartTime=checkInActivityInfo.getActivityCheckInStartTime();this.activityCheckInEndTime = checkInActivityInfo.getActivityCheckInEndTime();
         this.activityStartTime = checkInActivityInfo.getActivityStartTime();this.activityEndTime = checkInActivityInfo.getActivityEndTime();
-        activityParticipant=new ArrayList<>();
     }
 
     /**
      * UI界面获取活动参与列表状态，返回值为null表示还未向服务器获取到参与者信息
      */
     public boolean uiGetActivityParticipantStatus(){
-        return activityParticipant==null;
+        return activityParticipant!=null;
     }
 
     /**
      * 从本地或服务器获取到的活动参与用户列表
      * @param activityParticipant
      */
-    public void clientSetActivityParticipantInfo(List<Integer> activityParticipant){
+    public void clientSetActivityParticipantInfo(List<Participant> activityParticipant){
         this.activityParticipant=activityParticipant;
     }
 
 
     /////获取活动基本信息///////
 
-    public List<Integer> getActivityParticipant() {
+    public List<Participant> getActivityParticipant() {
         return activityParticipant;
     }
 
@@ -217,5 +217,17 @@ public class CheckInActivityInfo {
 
     public String getActivityTheme() {
         return activityTheme;
+    }
+
+    public class Participant
+    {
+        public int userID;
+        public boolean clockIn;
+        public boolean administrator;
+
+        public Participant(int userID,boolean clockIn, boolean administrator)
+        {
+            this.userID = userID;this.clockIn = clockIn;this.administrator = administrator;
+        }
     }
 }
