@@ -8,7 +8,7 @@ public class ServerMessageTypeConfiguration {
     /**
      * 用户注册
      */
-    final static public int SERVER_MY_REGISTER=9999;
+    final static public int SERVER_MY_REGISTER=9000;
     final static public int SERVER_MY_JOIN_ACTIVITY=10100;
     /**
      * 心跳包

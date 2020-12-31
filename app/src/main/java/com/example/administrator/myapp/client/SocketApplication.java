@@ -12,8 +12,12 @@ public class SocketApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        infoManager =new InfoManager();
         mSocketClient=new SocketClient(infoManager);
+        infoManager =new InfoManager(mSocketClient);
+    }
+
+    public void startClientSocket(){
+        mSocketClient.startClientSocket();
     }
 
     /**

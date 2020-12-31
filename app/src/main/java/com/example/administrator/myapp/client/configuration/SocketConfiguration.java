@@ -4,7 +4,7 @@ public class SocketConfiguration {
     /**
      *  服务器IP地址
      */
-    public static final String IP="120.79.158.83";
+    public static final String IP="192.168.43.237";
     /**
      * 测试用服务器IP地址
      */

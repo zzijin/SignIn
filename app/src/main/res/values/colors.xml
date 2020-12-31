@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorLoginStroke">#FFEFD5</color>
+    <color name="colorLoginButtonStroke">#F4A460</color>
+
+    <color name="colorButtonEnabledTrue">#5F5F5F</color>
+    <color name="colorButtonEnabledFalse">#AAAAAA</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorVoiceInputNormal">#F4F4F4</color>
+    <color name="colorVoiceInputPress">#F0F0F0</color>
 </resources>

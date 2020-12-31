@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.Info.MyInfo;
+import com.example.administrator.myapp.Info.Participant;
 import com.example.administrator.myapp.Info.UserInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.client.configuration.ServerMessageTypeConfiguration;
@@ -37,9 +38,9 @@ public class SwitchMessage {
             case ServerMessageTypeConfiguration.SERVER_HEARTBEAT:
                 caseHeartBeat(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_MY_LOGIN_INFO:
-                caseUserLoginInfo(basicMessage);break;
+                caseMyLoginInfo(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_MY_REGISTER:
-                caseUserRegister(basicMessage);break;
+                 caseMyRegister(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_USER_GET_INFO:
                 caseUserGetInfoByUID(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_ACTIVITY_REGISTER:
@@ -69,8 +70,6 @@ public class SwitchMessage {
     private void caseActivityGetInfo(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
-            List<CheckInActivityInfo.Participant> participants=new ArrayList<>();
-
             CheckInActivityInfo checkInActivityInfo=new CheckInActivityInfo(json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID),
                     json.getJson().getInt(MessageNameConfiguration.ACTIVITY_INITIATOR_ID),json.getJson().getString(MessageNameConfiguration.ACTIVITY_THEME),
                     json.getJson().getDouble(MessageNameConfiguration.ACTIVITY_LONGITUDE),json.getJson().getDouble(MessageNameConfiguration.ACTIVITY_LATITUDE),
@@ -92,7 +91,7 @@ public class SwitchMessage {
         }
     }
 
-    private void caseUserLoginInfo(BasicMessage basicMessage){
+    private void caseMyLoginInfo(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
             MyInfo myInfo=new MyInfo(json.getJson().getInt(MessageNameConfiguration.LOGIN_ID),
@@ -106,7 +105,7 @@ public class SwitchMessage {
         }
     }
 
-    private void caseUserRegister(BasicMessage basicMessage){
+    private void caseMyRegister(BasicMessage basicMessage){
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
         try {
             MyInfo userInfo=new MyInfo(json.getJson().getInt(MessageNameConfiguration.LOGIN_ID),
@@ -134,15 +133,16 @@ public class SwitchMessage {
         JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
 
         try {
-            List<CheckInActivityInfo.Participant> participants=new ArrayList<>();
+            List<Participant> participants=new ArrayList<>();
             List<Integer> userIDList=ConvertTypeTool.StringToIntList(json.getJson().getString(MessageNameConfiguration.ACTIVITY_PARTICIPANT_USER_ID),"-");
             List<Boolean> clockInList=ConvertTypeTool.StringToBooleanList(json.getJson().getString(MessageNameConfiguration.ACTIVITY_PARTICIPANT_CLOCK_IN),"-");
             List<Boolean> administratorList=ConvertTypeTool.StringToBooleanList(json.getJson().getString(MessageNameConfiguration.ACTIVITY_PARTICIPANT_ADMINISTRATOR),"-");
             for(int i=0;i<userIDList.size();i++){
-                CheckInActivityInfo.Participant participant=new CheckInActivityInfo.Participant(userIDList.get(i),
+                Participant participant=new Participant(userIDList.get(i),
                         clockInList.get(i),administratorList.get(i));
+                participants.add(participant);
             }
-            infoManager.clientSetActivityParticipantInfo();
+            infoManager.clientSetActivityParticipantInfo(participants,json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID));
         } catch (JSONException e) {
             e.printStackTrace();
         }

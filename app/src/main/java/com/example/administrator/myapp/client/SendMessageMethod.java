@@ -20,17 +20,18 @@ public class SendMessageMethod {
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.LOGIN_ID,myID);
         json.putData(MessageNameConfiguration.LOGIN_PASSWORD,myPassword);
-        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_LOGIN_INFO_BY_ID,json.getMessage());
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_LOGIN_INFO,json.getMessage());
     }
 
     public static boolean userGetInfoByID(SocketClient socketClient,int userID){
         JsonByUTF8 json=new JsonByUTF8();
-        json.putData(MessageNameConfiguration.USER_NAME,userID);
+        json.putData(MessageNameConfiguration.USER_ID,userID);
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_USER_GET_INFO_BY_UID,json.getMessage());
     }
 
     public static boolean activityRegister(SocketClient socketClient, CheckInActivityInfo activityInfo,int activityIndex){
         JsonByUTF8 json=new JsonByUTF8();
+        json.putData(MessageNameConfiguration.REGISTER_ACTIVITY_INDEX,activityIndex);
         json.putData(MessageNameConfiguration.ACTIVITY_INITIATOR_ID,activityInfo.getActivityInitiatorID());
         json.putData(MessageNameConfiguration.ACTIVITY_THEME,activityInfo.getActivityTheme());
         json.putData(MessageNameConfiguration.ACTIVITY_LONGITUDE,activityInfo.getActivityCheckInLongitude());
@@ -47,6 +48,12 @@ public class SendMessageMethod {
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.ACTIVITY_ID,activityID);
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_ACTIVITY_GET_INFO,json.getMessage());
+    }
+
+    public static boolean activityGetParticipantList(SocketClient socketClient,int activityID){
+        JsonByUTF8 json=new JsonByUTF8();
+        json.putData(MessageNameConfiguration.ACTIVITY_ID,activityID);
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_ACTIVITY_PARTICIPANT_LIST,json.getMessage());
     }
 
     public static boolean activityJoin(SocketClient socketClient,int myID,int activityID){

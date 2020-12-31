@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.Info.MyInfo;
+import com.example.administrator.myapp.Info.Participant;
 import com.example.administrator.myapp.Info.UserInfo;
 import com.example.administrator.myapp.client.SendMessageMethod;
 import com.example.administrator.myapp.client.SocketClient;
@@ -19,9 +20,11 @@ public class InfoManager {
     private LinkedList<UserInfo> userInfoList;
     private boolean userInfoIsNew=false;
     private MyInfo myInfo;
+    private SocketClient socketClient;
 
     /////基本构造函数///////
-    public InfoManager(){
+    public InfoManager(SocketClient socketClient){
+        this.socketClient=socketClient;
         checkInActivityInfoList=new LinkedList<>();
         userInfoList=new LinkedList<>();
         myInfo=new MyInfo();
@@ -36,6 +39,7 @@ public class InfoManager {
      */
     public void uiLoginMyAccount(int myID,String myPassword){
         myInfo.uiLoginMyAccount(myID,myPassword);
+        SendMessageMethod.myLoginByID(socketClient,myID,myPassword);
     }
 
     /**
@@ -44,6 +48,19 @@ public class InfoManager {
     public void clientLoginStatus(boolean loginStatus,MyInfo myInfo){
         if(loginStatus){
             myInfo.clientLoginSucceedMyInfo(myInfo);
+            //获取用户相关活动信息
+            List<Integer> managedActivities=myInfo.getManagedActivities();
+            List<Integer> initiatorActivities=myInfo.getInitiatorActivities();
+            List<Integer> joinedActivities=myInfo.getJoinedActivities();
+            for(int i=0;i<managedActivities.size();i++){
+                uiGetActivityInfo(managedActivities.get(i));
+            }
+            for (int i=0;i<initiatorActivities.size();i++){
+                uiGetActivityInfo(initiatorActivities.get(i));
+            }
+            for (int i=0;i<joinedActivities.size();i++){
+                uiGetActivityInfo(joinedActivities.get(i));
+            }
         }
         else {
             myInfo.clientLoginFailMyInfo();
@@ -52,13 +69,16 @@ public class InfoManager {
 
     /////用户注册///////
 
+
     /**
      * UI界面注册用户
      * @param myName
      * @param myPassword
+     * @return 返回null则发送失败
      */
-    public void uiRegisterMyAccount(String myName,String myPassword){
+    public boolean uiRegisterMyAccount(String myName,String myPassword){
         myInfo.uiRegisterMyAccount(myName,myPassword);
+        return SendMessageMethod.myRegister(socketClient,myName,myPassword);
     }
 
     /**
@@ -79,12 +99,12 @@ public class InfoManager {
 
     /**
      * UI界面申请加入活动
-     * @param socketClient
      * @param activityID
+     * @return 返回null则发送失败
      */
-    public void uiJoinActivity(SocketClient socketClient,int activityID){
+    public boolean uiJoinActivity(int activityID){
         myInfo.uiJoinActivity(activityID);
-        SendMessageMethod.activityJoin(socketClient,myInfo.getMyID(),activityID);
+        return SendMessageMethod.activityJoin(socketClient,myInfo.getMyID(),activityID);
     }
 
     /**
@@ -116,12 +136,17 @@ public class InfoManager {
 
     /**
      * 界面获取某个用户的信息
-     * @param socketClient
-     * @param userID
+     * @param userID 返回null则等待
      */
-    public void uiAddUserInfo(SocketClient socketClient,int userID){
+    public UserInfo uiAddUserInfo(int userID){
+        for(int i=0;i<userInfoList.size();i++){
+            if(userInfoList.get(i).getUserID()==userID){
+                return userInfoList.get(i);
+            }
+        }
         userInfoList.add(new UserInfo(userID));
         SendMessageMethod.userGetInfoByID(socketClient,userID);
+        return null;
     }
 
     /**
@@ -142,7 +167,6 @@ public class InfoManager {
 
     /**
      * UI界面申请注册活动
-     * @param socketClient
      * @param activityInitiatorID
      * @param activityTheme
      * @param activityCheckInLongitude
@@ -152,14 +176,15 @@ public class InfoManager {
      * @param activityCheckInEndTime
      * @param activityStartTime
      * @param activityEndTime
+     * @return 返回null则表示发送失败
      */
-    public void uiRegisterActivityInfo(SocketClient socketClient,int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
+    public boolean uiRegisterActivityInfo(int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
                                   int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime, String activityStartTime, String activityEndTime){
         CheckInActivityInfo checkInActivityInfo=new CheckInActivityInfo(activityInitiatorID, activityTheme, activityCheckInLongitude, activityCheckInLatitude,
                 activityInvitationCode, activityCheckInStartTime, activityCheckInEndTime, activityStartTime, activityEndTime);
         int index=checkInActivityInfoList.size();
         checkInActivityInfoList.add(checkInActivityInfo);
-        SendMessageMethod.activityRegister(socketClient,checkInActivityInfo,index);
+        return SendMessageMethod.activityRegister(socketClient,checkInActivityInfo,index);
     }
 
     /**
@@ -178,15 +203,22 @@ public class InfoManager {
     /////用户向服务器请求活动信息///////
     /////步骤：1.从服务器/本地读取获取需要的活动id 2.向服务器/本地读取活动信息 3.向服务器/本地读取活动参与人数
 
+
     /**
      * UI界面获取指定活动信息
-     * @param socketClient
      * @param activityID
+     * @return 返回值为null则等待
      */
-    public void uiGetActivityInfo(SocketClient socketClient,int activityID){
+    public CheckInActivityInfo uiGetActivityInfo(int activityID){
+        for (int i=0;i<checkInActivityInfoList.size();i++){
+            if(checkInActivityInfoList.get(i).getActivityID()==activityID){
+                return checkInActivityInfoList.get(i);
+            }
+        }
         checkInActivityInfoList.add(new CheckInActivityInfo(activityID));
         SendMessageMethod.activityGetInfo(socketClient,activityID);
         Log.i("信息管理","获取指定活动ID信息:"+activityID);
+        return null;
     }
 
     /**
@@ -209,7 +241,7 @@ public class InfoManager {
      * @param activityParticipant
      * @param activityID
      */
-    public void clientSetActivityParticipantInfo(List<CheckInActivityInfo.Participant> activityParticipant, int activityID){
+    public void clientSetActivityParticipantInfo(List<Participant> activityParticipant, int activityID){
         for (int i=0;i<checkInActivityInfoList.size();i++){
             if(checkInActivityInfoList.get(i).getActivityID()==activityID){
                 checkInActivityInfoList.get(i).clientSetActivityParticipantInfo(activityParticipant);
@@ -219,10 +251,55 @@ public class InfoManager {
         Log.i("信息管理","获取到不明活动的参与者列表");
     }
 
+    /**
+     * UI界面获取指定活动的参与总列表
+     * @param activityID
+     * @return 返回null则等待
+     */
+    public List<Participant> uiGetActivityParticipant(int activityID){
+        for (int i=0;i<checkInActivityInfoList.size();i++){
+            if(checkInActivityInfoList.get(i).getActivityID()==activityID){
+                if(checkInActivityInfoList.get(i).uiGetActivityParticipantStatus()){
+                    return checkInActivityInfoList.get(i).getActivityParticipant();
+                }
+                else {
+                    SendMessageMethod.activityGetParticipantList(socketClient,activityID);
+                    return null;
+                }
+            }
+        }
+        SendMessageMethod.activityGetInfo(socketClient,activityID);
+        return null;
+    }
+
     ///////////////基本信息////////////////////
 
+    public String getMyStatusString(){
+        String r;
+        switch (myInfo.getMyLoginStatus()){
+            case -1:r="账户未登录";break;
+            case 0:r="账户登录中";break;
+            case 1:r="账户登录成功";break;
+            case 2:r="账户登录失败";break;
+            case 3:r="账户注册中";break;
+            case 4:r="账户注册失败";break;
+            case 5:r="账户注册成功";break;
+            default:r="应用异常，请重新打开";break;
+        }
+        Log.i("信息管理","获取账户状态:"+r);
+        return r;
+    }
+
+    public int getMyLoginStatus(){
+        return myInfo.getMyLoginStatus();
+    }
+
     public MyInfo getMyInfo() {
-        return myInfo;
+        //-1:未登录；0:登录中;1:登录成功;2:登录失败;3:注册中;4:注册失败;5:注册成功
+        if(myInfo.getMyLoginStatus()==1){
+            return myInfo;
+        }
+        else return null;
     }
 
     public LinkedList<UserInfo> getUserInfoList() {

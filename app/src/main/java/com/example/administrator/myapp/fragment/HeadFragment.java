@@ -61,7 +61,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
  //       myInfoslist=infoManager.getMyInfoList();
  //      mychecklist=infoManager.getCheckInActivityInfoList();
       for (int j = 0; j<=myInfo.getJoinedActivities().size(); j++){
-               mychecklist.add(infoManager.getCheckInActivityInfoByActivityID(myInfo.getJoinedActivities().get(j)));
+               //mychecklist.add(infoManager.getCheckInActivityInfoByActivityID(myInfo.getJoinedActivities().get(j)));
            }
     }
 
