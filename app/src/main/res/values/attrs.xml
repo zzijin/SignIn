@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RadioGroup">
+        <attr name="checkedButton" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="UnderlineRadioButton">
+        <attr name="text" format="string" />
+        <attr name="checked" format="boolean" />
+        <attr name="textColorChecked" format="color" />
+        <attr name="textColorUnchecked" format="color" />
+        <attr name="underlineColorChecked" format="color" />
+        <attr name="underlineColorUnchecked" format="color" />
+        <attr name="textMarginTop" format="dimension" />
+        <attr name="textMarginBottom" format="dimension" />
+        <attr name="underlineHeight" format="dimension" />
+    </declare-styleable>
+</resources>
