@@ -22,16 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".baidumap.createactivity">
+        <activity android:name=".baidumap.createactivity"></activity>
+        <activity android:name=".baidumap.information"></activity>
+        <activity android:name=".baidumap.sign"></activity>
 
-        </activity>
-        <activity android:name=".baidumap.information">
-
-        </activity>
-        <activity android:name=".baidumap.sign">
-
-        </activity>
-        <activity android:name=".baidumap.invite"/>
         <service android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"/>

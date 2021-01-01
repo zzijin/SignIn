@@ -18,7 +18,7 @@ public class CheckInActivityInfo {
     /**
      * 活动邀请码
      */
-    private int activityInvitationCode;
+    private String activityInvitationCode;
     /**
      * 活动签到起始时间
      */
@@ -81,7 +81,7 @@ public class CheckInActivityInfo {
      * @param activityEndTime
      */
     public CheckInActivityInfo(int activityID,int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
-                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
+                               String activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
                                String activityStartTime, String activityEndTime){
         this.activityID=activityID;
         this.activityInitiatorID = activityInitiatorID;this.activityTheme = activityTheme;this.activityCheckInLongitude = activityCheckInLongitude;
@@ -105,7 +105,7 @@ public class CheckInActivityInfo {
      * @param activityEndTime
      */
     public CheckInActivityInfo(int activityInitiatorID, String activityTheme, double activityCheckInLongitude, double activityCheckInLatitude,
-                               int activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
+                               String activityInvitationCode, String activityCheckInStartTime, String activityCheckInEndTime,
                                String activityStartTime, String activityEndTime){
         this.activityInitiatorID = activityInitiatorID;this.activityTheme = activityTheme;this.activityCheckInLongitude = activityCheckInLongitude;
         this.activityCheckInLatitude = activityCheckInLatitude;this.activityInvitationCode = activityInvitationCode;this.activityCheckInStartTime=activityCheckInStartTime;
@@ -191,7 +191,7 @@ public class CheckInActivityInfo {
         return activityInitiatorID;
     }
 
-    public int getActivityInvitationCode() {
+    public String getActivityInvitationCode() {
         return activityInvitationCode;
     }
 
