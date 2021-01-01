@@ -15,9 +15,22 @@
             android:id="@+id/rgTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:checkedButton="@id/urbApproved">
+            app:checkedButton="@id/initiatoractivities">
+            <com.example.administrator.myapp.cls.UnderlineRadioButton
+                android:id="@+id/initiatoractivities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:text="发布的活动"
+                app:textColorChecked="@color/colorPrimary"
+                app:textColorUnchecked="#55000000"
+                app:textMarginBottom="3dp"
+                app:textMarginTop="3dp"
+                app:underlineColorChecked="@color/colorPrimary"
+                app:underlineColorUnchecked="@android:color/transparent"
+                app:underlineHeight="3dp" />
            <com.example.administrator.myapp.cls.UnderlineRadioButton
-               android:id="@+id/urbAll"
+               android:id="@+id/joinedactivities"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_weight="1"
@@ -31,21 +44,7 @@
                app:underlineHeight="3dp" />
 
             <com.example.administrator.myapp.cls.UnderlineRadioButton
-                android:id="@+id/urbApproved"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:text="发布的活动"
-                app:textColorChecked="@color/colorPrimary"
-                app:textColorUnchecked="#55000000"
-                app:textMarginBottom="3dp"
-                app:textMarginTop="3dp"
-                app:underlineColorChecked="@color/colorPrimary"
-                app:underlineColorUnchecked="@android:color/transparent"
-                app:underlineHeight="3dp" />
-
-            <com.example.administrator.myapp.cls.UnderlineRadioButton
-                android:id="@+id/urbVerifying"
+                android:id="@+id/managedactivities"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

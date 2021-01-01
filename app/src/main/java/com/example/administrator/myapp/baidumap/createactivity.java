@@ -40,7 +40,6 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.example.administrator.myapp.Info.MyInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;

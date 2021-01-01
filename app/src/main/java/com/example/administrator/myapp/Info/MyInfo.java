@@ -14,11 +14,11 @@ public class MyInfo {
     private String myBirthday;
     private String myEmail;
 
-    private List<Integer> joinedActivities;
+    private List<Integer> joinedActivities;   //加入的活动
     private List<Integer> waitJoinStatusActivity;
     private List<Integer> failJoinActivity;
-    private List<Integer> managedActivities;
-    private List<Integer> initiatorActivities;
+    private List<Integer> managedActivities;   //管理的活动
+    private List<Integer> initiatorActivities; //发起的活动
     //-1:未登录；0:登录中;1:登录成功;2:登录失败;3:注册中;4:注册失败;5:注册成功
     private int myLoginStatus=-1;
 
