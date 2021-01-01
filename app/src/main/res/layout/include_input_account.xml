@@ -37,7 +37,7 @@
             />
         <TextView
             android:id="@+id/text_account"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:text="@string/account_input_zh"
@@ -84,7 +84,7 @@
             />
         <TextView
             android:id="@+id/text_password"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:text="@string/password_input_zh"

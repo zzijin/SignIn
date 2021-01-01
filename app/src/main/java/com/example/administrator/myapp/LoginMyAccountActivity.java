@@ -75,7 +75,22 @@ public class LoginMyAccountActivity extends AppCompatActivity {
         }
         @Override
         public void afterTextChanged(Editable s) {
-
+            if(s.length()>4&&s.length()<11){
+                textAccount.setText(R.string.account_true_zh);
+                boolAccount=true;
+                if(boolPassword&&boolAccount){
+                    buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
+                    buttonLogin.setEnabled(true);
+                }
+            }
+            else {
+                textAccount.setText(R.string.account_error_zh);
+                if(boolPassword&&boolAccount){
+                    buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
+                    buttonLogin.setEnabled(false);
+                }
+                boolAccount=false;
+            }
         }
     };
     //密码输入监控
@@ -94,14 +109,14 @@ public class LoginMyAccountActivity extends AppCompatActivity {
             if(s.length()>=6){
                 textPassword.setText(R.string.password_true_zh);
                 boolPassword=true;
-                if(boolPassword){
+                if(boolPassword&&boolAccount){
                     buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
                     buttonLogin.setEnabled(true);
                 }
             }
             else {
                 textPassword.setText(R.string.password_short_zh);
-                if(boolPassword){
+                if(boolPassword&&boolAccount){
                     buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
                     buttonLogin.setEnabled(false);
                 }
