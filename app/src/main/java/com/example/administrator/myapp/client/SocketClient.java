@@ -1,11 +1,15 @@
 package com.example.administrator.myapp.client;
 
+import android.util.Log;
+
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.client.configuration.SocketConfiguration;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import static java.lang.Thread.sleep;
 
 /**
  * 功能明确：连接服务器、关闭服务器、向activity提供发送消息方法、存放该app的所有与服务器相关的数据
@@ -24,19 +28,25 @@ public class SocketClient {
 
     public SocketClient(InfoManager infoManager){
         this.infoManager = infoManager;
+
     }
 
     public boolean startClientSocket(){
+        Log.i("Socket连接","开始连接 ");
         mSocket=new Socket();
         try {
             mSocket.connect(new InetSocketAddress(SocketConfiguration.IP,SocketConfiguration.PORT),500);
             conn=new Conn(this,mSocket, infoManager);
+            Log.i("Socket连接","连接正式服务器");
         } catch (IOException e) {
+            Log.i("Socket连接","连接正式服务器失败");
             try {
                 mSocket.connect(new InetSocketAddress(SocketConfiguration.IP_TEST,SocketConfiguration.PORT_TEST),500);
                 conn=new Conn(this,mSocket, infoManager);
+                Log.i("Socket连接","连接备用服务器");
             } catch (IOException ex) {
                 ex.printStackTrace();
+                Log.i("Socket连接","连接备用服务器失败");
                 return false;
             }
         }
@@ -67,7 +77,29 @@ public class SocketClient {
      */
     public boolean sendMessage(int type,byte[] data){
         PackData packData=new PackData(type,data);
-        return conn.sendMessage(packData.getPackData());
+        SendMessageThread sendMessageThread=new SendMessageThread(packData);
+        sendMessageThread.start();
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return sendMessageThread.getMessageSend();
     }
 
+    public class SendMessageThread extends Thread{
+        private PackData packData;
+        private boolean messageSend;
+
+        SendMessageThread(PackData packData){
+            this.packData=packData;
+        }
+        @Override
+        public void run() {
+            messageSend=conn.sendMessage(packData.getPackData());
+        }
+        public boolean getMessageSend(){
+            return messageSend;
+        }
+    }
 }

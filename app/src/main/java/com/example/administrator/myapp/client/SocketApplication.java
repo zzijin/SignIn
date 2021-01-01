@@ -11,9 +11,27 @@ public class SocketApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         infoManager =new InfoManager();
         mSocketClient=new SocketClient(infoManager);
+        infoManager.setSocketClient(mSocketClient);
+    }
+
+    public void startClientSocketThread(){
+        StartClientSocketThread startClientSocketThread=new StartClientSocketThread();
+        startClientSocketThread.start();
+    }
+
+    public class StartClientSocketThread extends Thread{
+        @Override
+        public void run() {
+            while (!mSocketClient.startClientSocket()){
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

@@ -4,11 +4,11 @@ public class SocketConfiguration {
     /**
      *  服务器IP地址
      */
-    public static final String IP="120.79.158.83";
+    public static final String IP="100.70.108.192";
     /**
      * 测试用服务器IP地址
      */
-    public static final String IP_TEST="";
+    public static final String IP_TEST="100.70.108.192";
     /**
      * 服务器端口
      */
@@ -16,7 +16,7 @@ public class SocketConfiguration {
     /**
      * 测试用服务器端口
      */
-    public static final int PORT_TEST=0;
+    public static final int PORT_TEST=12345;
     /**
      * conn类缓存区大小
      */
