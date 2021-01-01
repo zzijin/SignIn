@@ -75,7 +75,7 @@ public class SwitchMessage {
             CheckInActivityInfo checkInActivityInfo=new CheckInActivityInfo(json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID),
                     json.getJson().getInt(MessageNameConfiguration.ACTIVITY_INITIATOR_ID),json.getJson().getString(MessageNameConfiguration.ACTIVITY_THEME),
                     json.getJson().getDouble(MessageNameConfiguration.ACTIVITY_LONGITUDE),json.getJson().getDouble(MessageNameConfiguration.ACTIVITY_LATITUDE),
-                    json.getJson().getInt(MessageNameConfiguration.ACTIVITY_INVITATION_CODE),json.getJson().getString(MessageNameConfiguration.ACTIVITY_CHECK_IN_START_TIME),
+                    json.getJson().getString(MessageNameConfiguration.ACTIVITY_INVITATION_CODE),json.getJson().getString(MessageNameConfiguration.ACTIVITY_CHECK_IN_START_TIME),
                     json.getJson().getString(MessageNameConfiguration.ACTIVITY_CHECK_IN_END_TIME),json.getJson().getString(MessageNameConfiguration.ACTIVITY_START_TIME),
                     json.getJson().getString(MessageNameConfiguration.ACTIVITY_END_TIME));
             infoManager.clientSetActivityInfo(checkInActivityInfo);
