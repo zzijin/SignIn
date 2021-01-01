@@ -135,16 +135,16 @@ public class ConvertTypeTool {
     }
 
     static public List<Integer> StringToIntList(String data,String spaceChar){
-        if(data==null){
+        if(data==null||data.length()<1){
             return new ArrayList<>();
         }
 
         List<Integer> integers=new ArrayList<>();
-         String[] oneInfo=data.split(spaceChar);
-
-         for (int i=0;i<oneInfo.length;i++){
-             integers.add(Integer.getInteger(oneInfo[i]));
+        String[] oneInfo=data.split(spaceChar);
+         for (int i=1;i<oneInfo.length;i++){
+             integers.add(Integer.valueOf(oneInfo[i]));
          }
+        Log.i("转化工具","字符串转int列表-String:"+data+";intList:"+integers.toString());
          return integers;
     }
 
@@ -157,14 +157,14 @@ public class ConvertTypeTool {
     }
 
     static public List<Boolean> StringToBooleanList(String data,String spaceChar){
-        if(data==null){
+        if(data==null||data.length()<1){
             return new ArrayList<>();
         }
 
         List<Boolean> integers=new ArrayList<>();
         String[] oneInfo=data.split(spaceChar);
 
-        for (int i=0;i<oneInfo.length;i++){
+        for (int i=1;i<oneInfo.length;i++){
             integers.add(Boolean.getBoolean(oneInfo[i]));
         }
         return integers;

@@ -108,9 +108,9 @@ public class SwitchMessage {
                     ConvertTypeTool.StringToIntList(json.getJson().getString(MessageNameConfiguration.LOGIN_JOINED_ACTIVITY_LIST),"-"),
                     ConvertTypeTool.StringToIntList(json.getJson().getString(MessageNameConfiguration.LOGIN_MANAGED_ACTIVITY_LIST),"-"),
                     ConvertTypeTool.StringToIntList(json.getJson().getString(MessageNameConfiguration.LOGIN_INITIATOR_ACTIVITY_LIST),"-"));
-            infoManager.clientLoginStatus(json.getJson().getBoolean(MessageNameConfiguration.LOGIN_STATUS),myInfo);
             Log.i("Socket分置数据","用户登录返回数据,UserID:"+json.getJson().getInt(MessageNameConfiguration.LOGIN_ID)+";登录状态:"
                     +json.getJson().getBoolean(MessageNameConfiguration.LOGIN_STATUS));
+            infoManager.clientLoginStatus(json.getJson().getBoolean(MessageNameConfiguration.LOGIN_STATUS),myInfo);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.i("Socket分置数据","用户登录返回数据,错误:"+e.getMessage());

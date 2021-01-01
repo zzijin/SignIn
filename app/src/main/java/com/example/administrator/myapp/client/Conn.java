@@ -53,10 +53,6 @@ public class Conn {
      */
     private ProcessingDataThread processingDataThread;
     /**
-     * 用户数据
-     */
-    private InfoManager infoManager;
-    /**
      * 将接收到的数据进行分类管理
      */
     private SwitchMessage switchMessage;
@@ -74,7 +70,6 @@ public class Conn {
     public Conn(SocketClient socketClient, Socket socket, InfoManager infoManager){
         this.mSocketClient=socketClient;
         this.mSocket=socket;
-        this.infoManager = infoManager;
         switchMessage=new SwitchMessage(infoManager);
         buffSize= SocketConfiguration.BUFF_SIZE;
         readBuff=new byte[buffSize];
@@ -173,6 +168,10 @@ public class Conn {
      */
     public byte[] getReadBuff() {
         return readBuff;
+    }
+
+    public boolean getConnStatus(){
+        return connStatus;
     }
 
     /**

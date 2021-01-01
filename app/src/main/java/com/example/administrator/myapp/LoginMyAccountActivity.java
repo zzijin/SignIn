@@ -26,6 +26,8 @@ import com.example.administrator.myapp.client.SocketClient;
 public class LoginMyAccountActivity extends AppCompatActivity {
     EditText editAccount;
     EditText editPassword;
+    EditText editRegisterName;
+    EditText editRegisterPassword;
     TextView textAccount;
     TextView textPassword;
     Button buttonLogin;
@@ -34,7 +36,12 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     TextView textLoad;
     View includeInput;
     TextView textForget;
+    TextView textRegister;
+
+
+    private boolean activityIsLogin=true;
     InfoManager infoManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +50,13 @@ public class LoginMyAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_my_account);
 
         SocketApplication socketApplication =(SocketApplication) getApplication();
-        socketApplication.startClientSocketThread();
+        socketApplication.startClientSocket();
         infoManager=socketApplication.getInfoManager();
 
         editAccount=findViewById(R.id.edit_account);
         editPassword=findViewById(R.id.edit_password);
+        editRegisterName=findViewById(R.id.edit_register_account);
+        editRegisterPassword=findViewById(R.id.edit_register_password);
         textAccount=findViewById(R.id.text_account);
         textPassword=findViewById(R.id.text_password);
         buttonLogin=findViewById(R.id.button_login);
@@ -56,10 +65,38 @@ public class LoginMyAccountActivity extends AppCompatActivity {
         textLoad=findViewById(R.id.text_load);
         includeInput=findViewById(R.id.include_input);
         textForget=findViewById(R.id.text_forget);
+        textRegister=findViewById(R.id.text_register);
 
         editAccount.addTextChangedListener(wEditAccount);
         editPassword.addTextChangedListener(wEditPassword);
         buttonLogin.setOnClickListener(cButtonLogin);
+        textForget.setOnClickListener(cForgetMyPassword);
+        textRegister.setOnClickListener(cRegisterMyAccount);
+    }
+
+    public void loginSucceed(){
+        restoreLine();
+        Toast.makeText(LoginMyAccountActivity.this,"登录验证成功",Toast.LENGTH_SHORT).show();
+    }
+
+    public void loginFail(){
+        restoreLine();
+        Toast.makeText(LoginMyAccountActivity.this,"登录验证失败",Toast.LENGTH_SHORT).show();
+    }
+
+    public void NetworkDisconnection(){
+        restoreLine();
+        Toast.makeText(LoginMyAccountActivity.this,"网络断开",Toast.LENGTH_SHORT).show();
+    }
+
+    public void registerSucceed(){
+        restoreLine();
+        Toast.makeText(LoginMyAccountActivity.this,"注册用户成功",Toast.LENGTH_SHORT).show();
+    }
+
+    public void registerFail(){
+        restoreLine();
+        Toast.makeText(LoginMyAccountActivity.this,"注册用户失败",Toast.LENGTH_SHORT).show();
     }
 
     //账号输入监控
@@ -75,21 +112,41 @@ public class LoginMyAccountActivity extends AppCompatActivity {
         }
         @Override
         public void afterTextChanged(Editable s) {
-            if(s.length()>4&&s.length()<11){
-                textAccount.setText(R.string.account_true_zh);
-                boolAccount=true;
-                if(boolPassword&&boolAccount){
-                    buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
-                    buttonLogin.setEnabled(true);
+            if(activityIsLogin){
+                if(s.length()>4&&s.length()<11){
+                    textAccount.setText(R.string.account_true_zh);
+                    boolAccount=true;
+                    if(boolPassword&&boolAccount){
+                        buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
+                        buttonLogin.setEnabled(true);
+                    }
+                }
+                else {
+                    textAccount.setText(R.string.account_error_zh);
+                    if(boolPassword&&boolAccount){
+                        buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
+                        buttonLogin.setEnabled(false);
+                    }
+                    boolAccount=false;
                 }
             }
             else {
-                textAccount.setText(R.string.account_error_zh);
-                if(boolPassword&&boolAccount){
-                    buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
-                    buttonLogin.setEnabled(false);
+                if(s.length()>1&&s.length()<10){
+                    textAccount.setText(R.string.register_account_name_true);
+                    boolAccount=true;
+                    if(boolPassword&&boolAccount){
+                        buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledTrue));
+                        buttonLogin.setEnabled(true);
+                    }
                 }
-                boolAccount=false;
+                else {
+                    textAccount.setText(R.string.register_account_name_false);
+                    if(boolPassword&&boolAccount){
+                        buttonLogin.setTextColor(getResources().getColor(R.color.colorButtonEnabledFalse));
+                        buttonLogin.setEnabled(false);
+                    }
+                    boolAccount=false;
+                }
             }
         }
     };
@@ -131,18 +188,63 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     View.OnClickListener cButtonLogin=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String accountString=editAccount.getText().toString();
-            String password=editPassword.getText().toString();
-            if(accountString==null||accountString.length()==0){
-                Toast.makeText(LoginMyAccountActivity.this,"请输入数字账号",Toast.LENGTH_SHORT).show();
+            if(activityIsLogin){
+                String accountString=editAccount.getText().toString();
+                String password=editPassword.getText().toString();
+                infoManager.uiLoginMyAccount(Integer.valueOf(accountString),password);
             }
             else {
-                Log.i("输入信息","账号:"+accountString+"；密码："+password);
-                infoManager.uiLoginMyAccount(Integer.valueOf(accountString),password);
-                //动画进行前记录原始高宽度
-                lineWidth=lineInput.getWidth();
-                lineHeight=lineInput.getHeight();
-                setInputAnimator();
+                String accountString=editRegisterName.getText().toString();
+                String password=editRegisterPassword.getText().toString();
+                infoManager.uiRegisterMyAccount(accountString,password);
+            }
+
+            //动画进行前记录原始高宽度
+            lineWidth=lineInput.getWidth();
+            lineHeight=lineInput.getHeight();
+            setInputAnimator();
+        }
+    };
+
+    View.OnClickListener cForgetMyPassword=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(LoginMyAccountActivity.this,"Demo暂不支持修改密码,请等待后续更新",Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    View.OnClickListener cRegisterMyAccount=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (activityIsLogin){
+                activityIsLogin=false;
+                textRegister.setText(R.string.login_my_account);
+                buttonLogin.setText(R.string.register_zh);
+                textAccount.setText(R.string.register_account_name_input_zh);
+                editAccount.removeTextChangedListener(wEditAccount);
+                editPassword.removeTextChangedListener(wEditPassword);
+                editRegisterName.addTextChangedListener(wEditAccount);
+                editRegisterPassword.addTextChangedListener(wEditPassword);
+
+                editAccount.setVisibility(View.GONE);
+                editPassword.setVisibility(View.GONE);
+                editRegisterName.setVisibility(View.VISIBLE);
+                editRegisterPassword.setVisibility(View.VISIBLE);
+            }
+            else {
+                activityIsLogin=true;
+                textRegister.setText(R.string.register_my_account);
+                buttonLogin.setText(R.string.login_zh);
+                textAccount.setText(R.string.account_input_zh);
+                editAccount.addTextChangedListener(wEditAccount);
+                editPassword.addTextChangedListener(wEditPassword);
+                editRegisterName.removeTextChangedListener(wEditAccount);
+                editRegisterPassword.removeTextChangedListener(wEditPassword);
+
+                editAccount.setVisibility(View.VISIBLE);
+                editPassword.setVisibility(View.VISIBLE);
+                editRegisterName.setVisibility(View.GONE);
+                editRegisterPassword.setVisibility(View.GONE);
             }
         }
     };
@@ -223,24 +325,32 @@ public class LoginMyAccountActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if(infoManager.getMyLoginStatus()==0) {
-                    //密码验证中，重复动画
-                    animatorRotate.start();
-
+                if(infoManager.getConnStatus()){
+                    if(infoManager.getMyLoginStatus()==0||infoManager.getMyLoginStatus()==3) {
+                        //密码验证中，重复动画
+                        animatorRotate.start();
+                    }
+                    else if(infoManager.getMyLoginStatus()==1){
+                        //验证成功
+                        loginSucceed();
+                    }
+                    else if(infoManager.getMyLoginStatus()==2){
+                        //登录失败
+                        loginFail();
+                    }
+                    else if(infoManager.getMyLoginStatus()==4){
+                        //注册失败
+                        registerSucceed();
+                    }
+                    else if(infoManager.getMyLoginStatus()==5){
+                        //注册成功
+                        registerFail();
+                    }
+                    Log.i("登录页面","用户状态:"+infoManager.getMyStatusString());
                 }
-                else if(infoManager.getMyLoginStatus()==1){
-                    //验证成功
-                    restoreLine();
-                    Toast.makeText(LoginMyAccountActivity.this,"登录验证成功",Toast.LENGTH_SHORT).show();
-
+                else {
+                    NetworkDisconnection();
                 }
-                else if(infoManager.getMyLoginStatus()==2){
-                    //登录失败
-                    restoreLine();
-                    Toast.makeText(LoginMyAccountActivity.this,"登录验证失败",Toast.LENGTH_SHORT).show();
-
-                }
-                Log.i("登录页面","用户状态:"+infoManager.getMyStatusString());
             }
             @Override
             public void onAnimationCancel(Animator animation) {

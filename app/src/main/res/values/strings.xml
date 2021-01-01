@@ -5,15 +5,21 @@
     <string name="title_notifications">我的</string>
 
     <string name="login_zh">登录</string>
+    <string name="register_zh">注册</string>
     <string name="login_en">Login</string>
 
     <string name="account_input_zh">请输入账户</string>
+    <string name="register_account_name_input_zh">请输入用户名</string>
     <string name="password_input_zh">请输入密码</string>
     <string name="account_error_zh">账户长度错误</string>
     <string name="account_true_zh">账户长度正确</string>
+    <string name="register_account_name_true">账户名正确</string>
+    <string name="register_account_name_false">账户名错误</string>
     <string name="password_short_zh">密码应大于6位</string>
     <string name="password_true_zh">密码长度正确</string>
     <string name="password_forget_zh">忘记密码</string>
+    <string name="register_my_account">注册账户</string>
+    <string name="login_my_account">登录账户</string>
     <string name="voice_input_started_zh">按住 录音</string>
     <string name="voice_input_ing_zh">松开 发送</string>
 </resources>
