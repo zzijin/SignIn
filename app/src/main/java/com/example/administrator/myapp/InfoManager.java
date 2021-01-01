@@ -107,9 +107,28 @@ public class InfoManager {
      * @param activityID
      * @return 返回null则发送失败
      */
-    public boolean uiJoinActivity(int activityID){
+    public boolean uiJoinActivity(int activityID,String code){
         this.myInfo.uiJoinActivity(activityID);
-        return SendMessageMethod.activityJoin(this.socketClient,this.myInfo.getMyID(),activityID);
+        return SendMessageMethod.activityJoin(this.socketClient,this.myInfo.getMyID(),activityID,code);
+    }
+
+    public int uiGetJoinActivityStatus(int activityID){
+        for(int i=0;i<myInfo.uiGetWaitJoinList().size();i++){
+            if(myInfo.uiGetWaitJoinList().get(i)==activityID){
+                return 0;
+            }
+        }
+        for(int i=0;i<myInfo.uiGetJoinList().size();i++){
+            if(myInfo.uiGetJoinList().get(i)==activityID){
+                return 1;
+            }
+        }
+        for(int i=0;i<myInfo.uiGetFailJoinList().size();i++){
+            if(myInfo.uiGetFailJoinList().get(i)==activityID){
+                return -1;
+            }
+        }
+        return 2;
     }
 
     /**

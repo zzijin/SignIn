@@ -56,10 +56,11 @@ public class SendMessageMethod {
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_ACTIVITY_PARTICIPANT_LIST,json.getMessage());
     }
 
-    public static boolean activityJoin(SocketClient socketClient,int myID,int activityID){
+    public static boolean activityJoin(SocketClient socketClient,int myID,int activityID,String code){
         JsonByUTF8 json=new JsonByUTF8();
         json.putData(MessageNameConfiguration.USER_ID,myID);
         json.putData(MessageNameConfiguration.ACTIVITY_ID,activityID);
+        json.putData(MessageNameConfiguration.ACTIVITY_INVITATION_CODE,code);
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_JOIN_ACTIVITY,json.getMessage());
     }
 }

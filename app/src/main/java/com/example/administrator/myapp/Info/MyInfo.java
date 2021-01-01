@@ -128,12 +128,15 @@ public class MyInfo {
      * @return 失败列表
      */
     public List<Integer> uiGetFailJoinList(){
-        List<Integer> fail=new ArrayList<>();
-        for(int i=0;i<failJoinActivity.size();i++){
-            fail.add(failJoinActivity.get(i));
-        }
-        failJoinActivity.clear();
-        return fail;
+        return failJoinActivity;
+    }
+
+    public List<Integer> uiGetWaitJoinList(){
+        return waitJoinStatusActivity;
+    }
+
+    public List<Integer> uiGetJoinList(){
+        return joinedActivities;
     }
 
     /**
