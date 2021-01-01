@@ -75,7 +75,10 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     }
 
     public void loginSucceed(){
-        restoreLine();
+        Intent succeedIntent=new Intent(LoginMyAccountActivity.this,MainActivity.class);
+        succeedIntent.putExtra("myID",infoManager.getMyInfo().getMyID());
+        startActivity(succeedIntent);
+        finish();
         Toast.makeText(LoginMyAccountActivity.this,"登录验证成功",Toast.LENGTH_SHORT).show();
     }
 
