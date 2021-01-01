@@ -24,22 +24,8 @@ public class SocketApplication extends Application {
         infoManager.setSocketClient(mSocketClient);
     }
 
-    public void startClientSocketThread(){
-        StartClientSocketThread startClientSocketThread=new StartClientSocketThread();
-        startClientSocketThread.start();
-    }
-
-    public class StartClientSocketThread extends Thread{
-        @Override
-        public void run() {
-            while (!mSocketClient.startClientSocket()){
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public void startClientSocket(){
+        mSocketClient.startClientSocketThread();
     }
 
     /**
@@ -48,6 +34,10 @@ public class SocketApplication extends Application {
      */
     public SocketClient getSocketClient() {
         return mSocketClient;
+    }
+
+    public boolean getConnStatus(){
+        return mSocketClient.getConnStatus();
     }
 
     /**

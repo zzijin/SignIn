@@ -55,6 +55,8 @@ public class InfoManager {
             List<Integer> managedActivities=myInfo.getManagedActivities();
             List<Integer> initiatorActivities=myInfo.getInitiatorActivities();
             List<Integer> joinedActivities=myInfo.getJoinedActivities();
+            Log.i("接收消息","获取登录用户相关活动:ID"+myInfo.getMyID()
+                +"发起活动表长:"+initiatorActivities.size());
             for(int i=0;i<managedActivities.size();i++){
                 uiGetActivityInfo(managedActivities.get(i));
             }
@@ -313,4 +315,7 @@ public class InfoManager {
         return checkInActivityInfoList;
     }
 
+    public boolean getConnStatus(){
+        return socketClient.getConnStatus();
+    }
 }

@@ -63,10 +63,49 @@ public class SocketClient {
     }
 
     /**
-     * 心跳包接收超时后判断为网络异常，关闭连接并尝试重新连接
+     * 于服务器断开连接后重新连接
      */
     public void disconnect(){
+        try {
+            mSocket.connect(new InetSocketAddress(SocketConfiguration.IP,SocketConfiguration.PORT),500);
+            Log.i("Socket连接","连接正式服务器");
+        } catch (IOException e) {
+            Log.i("Socket连接","连接正式服务器失败");
+            try {
+                mSocket.connect(new InetSocketAddress(SocketConfiguration.IP_TEST,SocketConfiguration.PORT_TEST),500);
+                Log.i("Socket连接","连接备用服务器");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                Log.i("Socket连接","连接备用服务器失败");
+            }
+        }
+    }
 
+    public void startClientSocketThread(){
+        StartClientSocketThread startClientSocketThread=new StartClientSocketThread();
+        startClientSocketThread.start();
+    }
+
+    public boolean getConnStatus(){
+        if(conn!=null){
+            if(conn.getConnStatus()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public class StartClientSocketThread extends Thread{
+        @Override
+        public void run() {
+            while (!startClientSocket()){
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

@@ -29,6 +29,17 @@
             android:singleLine="true"
             android:digits="1234567890"
             />
+        <EditText
+            android:id="@+id/edit_register_account"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:visibility="gone"
+            />
         <View  android:layout_height="match_parent"
             android:layout_width="2dp"
             android:background="#FFDEAD"
@@ -37,7 +48,7 @@
             />
         <TextView
             android:id="@+id/text_account"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:text="@string/account_input_zh"
@@ -76,6 +87,18 @@
             android:inputType="textPassword"
             android:singleLine="true"
             />
+        <EditText
+            android:id="@+id/edit_register_password"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:visibility="gone"
+            />
         <View  android:layout_height="match_parent"
             android:layout_width="2dp"
             android:background="#FFDEAD"
@@ -84,7 +107,7 @@
             />
         <TextView
             android:id="@+id/text_password"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:text="@string/password_input_zh"
