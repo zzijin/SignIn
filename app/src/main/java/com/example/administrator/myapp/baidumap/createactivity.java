@@ -327,7 +327,7 @@ public class createactivity extends AppCompatActivity {
 //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
             CircleOptions mCircleOptions = new CircleOptions().center(point)
-                    .radius(200)
+                    .radius(100)
                     .fillColor(0xAA0000FF) //填充颜色
                     .stroke(new Stroke(5, 0xAA00ff00)); //边框宽和边框颜色
             //在地图上显示圆

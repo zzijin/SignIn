@@ -175,7 +175,7 @@ public class sign extends AppCompatActivity {
     public void Range(){
 //构造CircleOptions对象
         CircleOptions mCircleOptions = new CircleOptions().center(destinationlatlng)
-                .radius(200)
+                .radius(100)
                 .fillColor(0xAA0000FF) //填充颜色
                 .stroke(new Stroke(5, 0xAA00ff00)); //边框宽和边框颜色
 
