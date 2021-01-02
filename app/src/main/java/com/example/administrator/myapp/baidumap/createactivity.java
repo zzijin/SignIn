@@ -121,13 +121,13 @@ public class createactivity extends AppCompatActivity {
         value_title = activity_title.getText().toString();
         value_code = code_invite.getText().toString();
         value_signstart = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signstart;
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+signtime_start.getText().toString();
         value_signend = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signend;
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+signtime_end.getText().toString();
         value_start = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_start;
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+time_start.getText().toString();
         value_end = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_end;
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+time_end.getText().toString();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             simpleDateFormat.parse(value_start);
