@@ -120,31 +120,35 @@ public class createactivity extends AppCompatActivity {
     public void btn_createactivity(View view) {
         value_title = activity_title.getText().toString();
         value_code = code_invite.getText().toString();
-        value_signstart = signtime_start.getText().toString();
-        value_signend = signtime_end.getText().toString();
-        value_start = time_start.getText().toString();
-        value_end = time_end.getText().toString();
+        value_signstart = time_year.getText().toString()+"-"+
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signstart;
+        value_signend = time_year.getText().toString()+"-"+
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signend;
+        value_start = time_year.getText().toString()+"-"+
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_start;
+        value_end = time_year.getText().toString()+"-"+
+                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_end;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            simpleDateFormat.parse(time_year.getText().toString()+"-"+
-                    time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_start+"-"+value_end);
-            simpleDateFormat.parse(time_year.getText().toString()+"-"+
-                    time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signstart+"-"+value_signend);
+            simpleDateFormat.parse(value_start);
+            simpleDateFormat.parse(value_end);
+            simpleDateFormat.parse(value_signstart);
+            simpleDateFormat.parse(value_signend);
+            if(value_title.length() > 20){
+                Toast.makeText(getApplicationContext(),"活动主题名过长",Toast.LENGTH_SHORT);
+            }
+            else if (code_invite.getText().toString().length() > 8){
+                Toast.makeText(getApplicationContext(),"邀请码过长",Toast.LENGTH_SHORT);
+            }
+            else if(activity_title.getText() == null || activity_location.getText() == null || time_year.getText() == null || time_mouth.getText() == null || time_day.getText() == null || time_start.getText() == null || time_end.getText() == null || signtime_start.getText() == null || signtime_start.getText() == null || code_invite.getText() == null){
+                Toast.makeText(getApplicationContext(),"不能为空",Toast.LENGTH_SHORT);
+            }
+            else {
+                infoManager.uiRegisterActivityInfo(infoManager.getMyInfo().getMyID(),value_title,point_longitude,point_latitude,value_code,value_signstart,value_signend,value_start,value_end);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),"时间格式有误",Toast.LENGTH_SHORT);
-        }
-        if(value_title.length() > 20){
-            Toast.makeText(getApplicationContext(),"活动主题名过长",Toast.LENGTH_SHORT);
-        }
-        else if (code_invite.getText().toString().length() > 8){
-            Toast.makeText(getApplicationContext(),"邀请码过长",Toast.LENGTH_SHORT);
-        }
-        else if(activity_title.getText() == null || activity_location.getText() == null || time_year.getText() == null || time_mouth.getText() == null || time_day.getText() == null || time_start.getText() == null || time_end.getText() == null || signtime_start.getText() == null || signtime_start.getText() == null || code_invite.getText() == null){
-            Toast.makeText(getApplicationContext(),"不能为空",Toast.LENGTH_SHORT);
-        }
-        else {
-            infoManager.uiRegisterActivityInfo(infoManager.getMyInfo().getMyID(),value_title,point_longitude,point_latitude,value_code,value_signstart,value_signend,value_start,value_end);
         }
     }
     public void getLocation(){
