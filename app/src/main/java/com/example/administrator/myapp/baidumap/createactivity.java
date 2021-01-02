@@ -49,7 +49,7 @@ import java.util.Calendar;
 
 public class createactivity extends AppCompatActivity {
     EditText activity_title,activity_location,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
-    String value_title,value_signstart,value_signend,value_start,value_end,value_city,value_keyword;
+    String value_title,value_signstart,value_signend,value_start,value_end,value_city,value_keyword,value_code;
     Button search;
     private MapView mMapView = null;
     private BaiduMap mBaiduMap;
@@ -62,7 +62,7 @@ public class createactivity extends AppCompatActivity {
     double Longitude,point_longitude;
     String address;
     Calendar calendar = Calendar.getInstance();
-    int t,value_code,hour,minute;
+    int t,hour,minute;
     InfoManager infoManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,7 @@ public class createactivity extends AppCompatActivity {
 
     public void btn_createactivity(View view) {
         value_title = activity_title.getText().toString();
-        value_code = Integer.valueOf(code_invite.getText().toString());
+        value_code = code_invite.getText().toString();
         value_signstart = timetostring(signtime_start.getText().toString());
         value_signend = timetostring(signtime_end.getText().toString());
         value_start = timetostring(time_start.getText().toString());

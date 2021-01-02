@@ -149,7 +149,7 @@ public class InfoManager {
             this.myInfo.clientJoinSuccessActivity(activityID);
         }
         else {
-            this.myInfo.clientJoinSuccessActivity(activityID);
+            this.myInfo.clientJoinFailActivity(activityID);
         }
     }
 

@@ -53,6 +53,12 @@
                 android:text="签到结束时间"
                 android:id="@+id/show_signtime_end"/>
         </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="邀请码"
+            android:gravity="center"
+            android:id="@+id/code_invite"/>
     </LinearLayout>
 
     <Button
@@ -60,6 +66,7 @@
         android:layout_height="wrap_content"
         android:text="加入"
         android:layout_gravity="center"
-        android:onClick="btn_join"/>
+        android:enabled="true"
+        android:id="@+id/btn_join"/>
 
 </LinearLayout>

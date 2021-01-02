@@ -1,9 +1,11 @@
 package com.example.administrator.myapp.baidumap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +24,20 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.example.administrator.myapp.Info.CheckInActivityInfo;
+import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class sign extends AppCompatActivity {
@@ -38,10 +49,14 @@ public class sign extends AppCompatActivity {
     double Latitude;
     double Longitude;
     double Altitude;
-    String address;
+    String address,value_information;
     TextView mylocation,information;
     LatLng mylatlng, destinationlatlng;
-
+    InfoManager infoManager;
+    int activityID;
+    GeoCoder mSearch;
+    Date start,end;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +70,16 @@ public class sign extends AppCompatActivity {
         mBaiduMap = mMapView.getMap();
         mylocation = findViewById(R.id.mylocation);
         information = findViewById(R.id.information);
-
+        btn = findViewById(R.id.btn_sign);
+        Intent id = getIntent();
+        activityID = id.getIntExtra("activityID",-1);
+        GeoCoder mSearch;
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
         getInformation();
-        //Range();
+        getActivityInfo();
+
+        Range();
         MapStatus mMapStatus;
         mMapStatus = new MapStatus.Builder()
                 .target(mylatlng)//设定中心点坐标 ,要移动到的点
@@ -71,11 +91,23 @@ public class sign extends AppCompatActivity {
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
 
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                Log.i("address",""+reverseGeoCodeResult.getAddress());
+                information.setText(value_information+reverseGeoCodeResult.getAddress());
+            }
+        });
+
+        btn.setOnClickListener(btnSign);
+
     }
 
-    public void getInformation(){
-        information.setText("活动主题："+"\n活动地址："+"\n时间：");
-    }
     public void getLocation(){
         mLocationClient = new LocationClient(this);
 
@@ -136,16 +168,6 @@ public class sign extends AppCompatActivity {
             }
         }
     }
-    public void btn_sign(View view) {
-        Date date = new Date(System.currentTimeMillis());
-        if(DistanceUtil.getDistance(mylatlng, destinationlatlng)<=200){
-            Toast.makeText(this,"签到成功",Toast.LENGTH_SHORT).show();
-            Log.i("distance", String.valueOf(DistanceUtil.getDistance(mylatlng, destinationlatlng)));
-        }
-        else{
-            Toast.makeText(this,"还未到达目的地",Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void Range(){
 //构造CircleOptions对象
@@ -156,11 +178,6 @@ public class sign extends AppCompatActivity {
 
 //在地图上显示圆
         Overlay mCircle = mBaiduMap.addOverlay(mCircleOptions);
-    }
-
-
-    public void getActivityLocation(){
-
     }
 
     @Override
@@ -183,6 +200,73 @@ public class sign extends AppCompatActivity {
         mMapView = null;
         super.onDestroy();
     }
+
+    public void getActivityInfo(){
+        GetActivityInfoThread getActivityInfoThead=new GetActivityInfoThread();
+        getActivityInfoThead.start();
+    }
+    public void getInformation(){
+        information.setText("活动主题："+"\n活动地址："+"\n时间：");
+    }
+    public void setView(final CheckInActivityInfo checkInActivityInfo){
+        ((sign) this).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    start=simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInStartTime());
+                    end=simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInEndTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                destinationlatlng = new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude());
+                value_information = "活动主题："+checkInActivityInfo.getActivityTheme()+
+                        "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
+                        "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() +
+                        "\n结束签到时间：" + checkInActivityInfo.getActivityCheckInEndTime() + "\n活动地点：";
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude())));
+            }
+        });
+    }
+
+    class GetActivityInfoThread extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                CheckInActivityInfo checkInActivityInfo = infoManager.uiGetActivityInfo(activityID);
+                if (checkInActivityInfo!=null){
+                    setView(checkInActivityInfo);
+                    break;
+                }
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    View.OnClickListener btnSign = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(System.currentTimeMillis()<=start.getTime()){
+                Toast.makeText(getApplicationContext(),"未到签到时间",Toast.LENGTH_SHORT).show();
+            }
+            else if (System.currentTimeMillis()>=end.getTime()){
+                Toast.makeText(getApplicationContext(),"迟到",Toast.LENGTH_SHORT).show();
+            }
+            else if(DistanceUtil.getDistance(mylatlng, destinationlatlng)>100){
+                Toast.makeText(getApplicationContext(),"还未到达目的地",Toast.LENGTH_SHORT).show();
+            }
+            else if(DistanceUtil.getDistance(mylatlng, destinationlatlng)<=100&&System.currentTimeMillis()>=start.getTime()&&System.currentTimeMillis()<=end.getTime()){
+                Log.i("distance", String.valueOf(DistanceUtil.getDistance(mylatlng, destinationlatlng)));
+                Toast.makeText(getApplicationContext(),"签到成功",Toast.LENGTH_SHORT).show();
+                btn.setEnabled(false);
+            }
+        }
+    };
+
     public int getRank(double distance){
         int rank = 10;
         if(distance<=20){
