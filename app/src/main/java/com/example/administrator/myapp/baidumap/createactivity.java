@@ -3,7 +3,6 @@ package com.example.administrator.myapp.baidumap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -43,11 +40,9 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class createactivity extends AppCompatActivity {
     EditText activity_title,activity_location,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
@@ -63,7 +58,6 @@ public class createactivity extends AppCompatActivity {
     double Latitude,point_latitude;
     double Longitude,point_longitude;
     String address;
-    Calendar calendar = Calendar.getInstance();
     int t,hour,minute;
     InfoManager infoManager;
     @Override

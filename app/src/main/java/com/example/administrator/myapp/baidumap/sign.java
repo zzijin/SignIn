@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -36,7 +34,6 @@ import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
