@@ -1,41 +1,86 @@
 package com.example.administrator.myapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.administrator.myapp.InfoManager;
+import com.example.administrator.myapp.LoginMyAccountActivity;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.adapter.MeAdapter;
+import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.cls.MeMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeFragment extends Fragment {
-    private ListView listView;
-    private List<MeMenu> list=new ArrayList<>();
-    private static final String[] str={"我的关注","我的话题","活动记录","问题反馈","系统设置","安全中心","关于应用"};
+public class MeFragment extends Fragment implements View.OnClickListener {
+    private ImageView notice,activities,wait,userpro;
+    private TextView username;
+    private InfoManager infoManager;
+    private MeFragmentItem meFragmentItem;
+    private int myStatus=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_me, container, false);
-        listView=view.findViewById(R.id.me_listview);
-        initData();
-        BaseAdapter adapter=new MeAdapter(list,getContext());
-        listView.setAdapter(adapter);
+        username=view.findViewById(R.id.me_username);
+        userpro=view.findViewById(R.id.login);
+        notice=view.findViewById(R.id.me_notice);
+        activities=view.findViewById(R.id.me_activities);
+        wait=view.findViewById(R.id.me_wait);
+        onViewCreated(view,savedInstanceState);
+        userpro.setOnClickListener(this);
+        notice.setOnClickListener(this);
+        wait.setOnClickListener(this);
+        activities.setOnClickListener(this);
+        showFragment(R.layout.fragment_me_item1);
        return view;
     }
 
-    private void initData() {
-        list.clear();
-        for (int i=0;i<7;i++) {
-            MeMenu mm=new MeMenu(str[i]+i,R.mipmap.me_pro);
-            list.add(mm);
+    public void showFragment(int myresource){
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        meFragmentItem=new MeFragmentItem(myresource);
+        transaction.replace(R.id.me_item_fragment,meFragmentItem);
+        transaction.commit();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SocketApplication socketApplication = (SocketApplication) getActivity().getApplication();
+        infoManager = socketApplication.getInfoManager();
+        myStatus=infoManager.getMyLoginStatus();
+        if (myStatus==1){
+            username.setText(infoManager.getMyInfo().getMyName());
+            userpro.setImageResource(R.mipmap.me_namepro);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.me_notice:{showFragment(R.layout.fragment_me_item1);};break;
+            case R.id.me_activities:{showFragment(R.layout.fragment_me_item2);};break;
+            case R.id.me_wait:{showFragment(R.layout.fragment_me_item3);};break;
+            case R.id.login:{
+                if (myStatus!=1){
+                    startActivity(new Intent(getActivity(), LoginMyAccountActivity.class));
+                    getActivity().finish();
+                }
+            };break;
+    }
     }
 }

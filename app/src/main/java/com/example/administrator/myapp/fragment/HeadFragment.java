@@ -158,6 +158,8 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
+                adapter=new HeadAdapter(getContext(),mychecklist);
+                listView.setAdapter(adapter);
             }
         });
     }

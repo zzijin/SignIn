@@ -42,12 +42,14 @@
               android:layout_marginLeft="15dp"
               android:layout_marginRight="15dp">
               <EditText
+                  android:id="@+id/find_search"
                   android:layout_width="match_parent"
                   android:layout_height="40dp"
                   android:layout_weight="1"
                   android:hint="Search"
                   android:background="@null" />
               <ImageView
+                  android:id="@+id/find_search_btn"
                   android:layout_width="match_parent"
                   android:layout_weight="6"
                   android:layout_height="25dp"
