@@ -1,5 +1,7 @@
 package com.example.administrator.myapp.Info;
 
+import android.util.Log;
+
 import com.example.administrator.myapp.client.SwitchMessage;
 import com.example.administrator.myapp.client.file.PictureFile;
 
@@ -184,6 +186,7 @@ public class CheckInActivityInfo {
     }
 
     public int getActivityID() {
+        Log.i("活动信息","活动id"+activityID);
         return activityID;
     }
 

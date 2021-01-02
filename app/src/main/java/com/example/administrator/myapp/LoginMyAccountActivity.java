@@ -50,7 +50,7 @@ public class LoginMyAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_my_account);
 
         SocketApplication socketApplication =(SocketApplication) getApplication();
-        socketApplication.startClientSocket();
+
         infoManager=socketApplication.getInfoManager();
 
         editAccount=findViewById(R.id.edit_account);

@@ -236,12 +236,13 @@ public class InfoManager {
     public CheckInActivityInfo uiGetActivityInfo(int activityID){
         for (int i=0;i<this.checkInActivityInfoList.size();i++){
             if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                Log.i("信息管理","获取指定活动ID信息:"+activityID);
                 return this.checkInActivityInfoList.get(i);
             }
         }
         this.checkInActivityInfoList.add(new CheckInActivityInfo(activityID));
         SendMessageMethod.activityGetInfo(socketClient,activityID);
-        Log.i("信息管理","获取指定活动ID信息:"+activityID);
+        Log.i("信息管理","向服务器获取指定活动ID信息:"+activityID);
         return null;
     }
 

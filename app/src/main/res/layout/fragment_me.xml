@@ -61,7 +61,7 @@
              android:layout_height="30dp"
              android:text="通知"
              android:layout_below="@id/coupon"
-             android:layout_marginLeft="40dp"
+             android:layout_marginLeft="45dp"
              android:textColor="#ffffff"/>
 
          <TextView
@@ -80,7 +80,7 @@
              android:text="待办"
              android:layout_below="@id/cart"
              android:layout_alignParentRight="true"
-             android:layout_marginRight="40dp"
+             android:layout_marginRight="45dp"
              android:textColor="#ffffff"/>
 
 

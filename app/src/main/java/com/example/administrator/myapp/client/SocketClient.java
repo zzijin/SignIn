@@ -98,13 +98,7 @@ public class SocketClient {
     public class StartClientSocketThread extends Thread{
         @Override
         public void run() {
-            while (!startClientSocket()){
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            startClientSocket();
         }
     }
 
@@ -135,7 +129,13 @@ public class SocketClient {
         }
         @Override
         public void run() {
-            messageSend=conn.sendMessage(packData.getPackData());
+            if(conn!=null||getConnStatus()){
+                messageSend=conn.sendMessage(packData.getPackData());
+                messageSend=true;
+            }
+            else {
+                messageSend=false;
+            }
         }
         public boolean getMessageSend(){
             return messageSend;

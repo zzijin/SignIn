@@ -19,6 +19,7 @@ import com.example.administrator.myapp.Info.CheckInActivityInfo;
 import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
+import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 public class information extends AppCompatActivity {
     TextView activity_title, activity_location, time_start, time_end, time_signstart, time_signend, code_invite;
@@ -32,10 +33,8 @@ public class information extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
-        Intent intent = getIntent();
         SocketApplication socketApplication = (SocketApplication) getApplication();
         infoManager = socketApplication.getInfoManager();
-        activityID = intent.getIntExtra("activityID", 0);
 
         activity_title = findViewById(R.id.show_activity_title);
         activity_location = findViewById(R.id.show_actiivity_location);
@@ -48,7 +47,7 @@ public class information extends AppCompatActivity {
 
 
         Intent getid = getIntent();
-        activityID = getid.getIntExtra("activity", -1);
+        activityID = getid.getIntExtra(MessageNameConfiguration.ACTIVITY_ID, -1);
         if (activityID == -1) {
             finish();
         }

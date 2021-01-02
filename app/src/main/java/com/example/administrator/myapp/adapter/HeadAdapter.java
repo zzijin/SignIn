@@ -44,14 +44,13 @@ public class HeadAdapter extends BaseAdapter {
             view = LayoutInflater.from(ctx).inflate(R.layout.fragment_head_list, null);
             viewHolder.checkInActivityInfo=checkInActivityInfosList.get(position);
             viewHolder.headpro = view.findViewById(R.id.head_list_pro);
-            viewHolder.headpro.setImageResource(viewHolder.sign.getProfile());
+            viewHolder.headpro.setImageResource(R.drawable.ic_activity_cover_defult);
             viewHolder.headna = view.findViewById(R.id.head_list_hdname);
-            viewHolder.headna.setText(viewHolder.checkInActivityInfo.getActivityTheme());
+            viewHolder.headna.setText("活动主题："+viewHolder.checkInActivityInfo.getActivityTheme());
             viewHolder.headsp = view.findViewById(R.id.head_list_time);
-            viewHolder.headsp.setText(viewHolder.checkInActivityInfo.getActivityID());
+            viewHolder.headsp.setText("活动ID"+viewHolder.checkInActivityInfo.getActivityID()+"");
         } else {
             viewHolder = (ViewHolder) view.getTag();
-
         }
         return view;
     }

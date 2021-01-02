@@ -35,6 +35,7 @@ import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
+import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,7 +73,8 @@ public class sign extends AppCompatActivity {
         information = findViewById(R.id.information);
         btn = findViewById(R.id.btn_sign);
         Intent id = getIntent();
-        activityID = id.getIntExtra("activityID",-1);
+        activityID = id.getIntExtra(MessageNameConfiguration.ACTIVITY_ID
+                ,-1);
         GeoCoder mSearch;
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();

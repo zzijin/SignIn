@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,12 @@ import com.example.administrator.myapp.MainActivity;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.adapter.HeadAdapter;
 import com.example.administrator.myapp.baidumap.information;
+import com.example.administrator.myapp.baidumap.sign;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.cls.RadioGroup;
 import com.example.administrator.myapp.cls.Sign;
+import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
     private List<Sign> list=new ArrayList<>();
     private List<CheckInActivityInfo> mychecklist=new ArrayList<>();
     private List<MyInfo> myInfoslist=new ArrayList<>();
-    private UserInfo myInfo;
+    private MyInfo myInfo;
     private int myID;
     private SocketApplication socketApplication;
     private  SocketClient socketClient;
@@ -67,13 +70,16 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
         socketApplication=(SocketApplication)getActivity().getApplication();
         socketClient=socketApplication.getSocketClient();
         infoManager=socketApplication.getInfoManager();
-        myInfo=infoManager.uiAddUserInfo(myID);
+        myInfo=infoManager.getMyInfo();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-      Intent itemItent=new Intent(getActivity(),information.class);
-      itemItent.putExtra("activityID",mychecklist.get(position).getActivityID());
+      Intent itemItent=new Intent(getActivity(), sign.class);
+      itemItent.putExtra(MessageNameConfiguration.ACTIVITY_ID,
+              mychecklist.get(position).getActivityID());
+      Log.i(" 我的活动信息列表","跳转活动详情界面-ID:"+itemItent.getIntExtra("activityID",0)
+      +"-index:"+position);
       startActivity(itemItent);
       getActivity().finish();
     }
@@ -93,6 +99,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
                                     if (myInfo.getManagedActivities()!=null) break;
                                 }
                             }
+                            Log.i("我的活动列表","我管理的列表:"+myInfo.getManagedActivities());
                             refreshListView(myInfo.getManagedActivities());
                         } catch (InterruptedException e) {
                                 e.printStackTrace();
@@ -113,6 +120,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
                                     if (myInfo.getJoinedActivities()!=null) break;
                                 }
                             }
+                            Log.i("我的活动列表","我加入的列表:"+myInfo.getJoinedActivities());
                             refreshListView(myInfo.getJoinedActivities());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -133,6 +141,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
                                     if (myInfo.getInitiatorActivities()!=null) break;
                                 }
                             }
+                            Log.i("我的活动列表","我发起的列表:"+myInfo.getInitiatorActivities());
                             refreshListView(myInfo.getInitiatorActivities());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -143,6 +152,16 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
             }break;
         }
     }
+
+    private void changeListView(){
+        ((MainActivity) getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     //刷新ListView
     public void refreshListView(final List<Integer> myactivities){
         thread1.interrupt();
@@ -169,10 +188,10 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
                     };
                     thread2.start();
                 }
-                    thread2.interrupt();
+                    //thread2.interrupt();
                     mychecklist.add(infoManager.uiGetActivityInfo(myactivities.get(i)));
             }
-            adapter.notifyDataSetChanged();
+           changeListView();
         }
     }
 }
