@@ -112,9 +112,6 @@
                     android:background="@null"
                     android:hint="签到截至时间"/>
             </LinearLayout>
-
-
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="创建"
                 android:layout_gravity="center"
-                android:onClick="btn_createactivity"
+                android:id="@+id/btn_createactivity"
                 android:layout_marginTop="10dp"/>
         </LinearLayout>
 <!--        <LinearLayout-->

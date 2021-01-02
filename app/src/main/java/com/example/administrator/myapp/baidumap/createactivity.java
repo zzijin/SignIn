@@ -49,7 +49,7 @@ public class createactivity extends AppCompatActivity {
     TextView activity_location;
     EditText activity_title,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
     String value_title,value_signstart,value_signend,value_start,value_end,value_city,value_keyword,value_code;
-    Button search;
+    Button search,createactivity;
     private MapView mMapView = null;
     private BaiduMap mBaiduMap;
     LocationClient mLocationClient;
@@ -80,7 +80,8 @@ public class createactivity extends AppCompatActivity {
         city = findViewById(R.id.city);
         keyword = findViewById(R.id.keyword);
         search = findViewById(R.id.search);
-        activity_location=findViewById(R.id.activity_location);
+        createactivity = findViewById(R.id.btn_createactivity);
+        activity_location = findViewById(R.id.activity_location);
 
 //        timepicker.setIs24HourView(true);
 //        time_start.setInputType(InputType.TYPE_NULL);
@@ -89,6 +90,7 @@ public class createactivity extends AppCompatActivity {
 //        signtime_end.setInputType(InputType.TYPE_NULL);
 
         mMapView = (MapView) findViewById(R.id.create_map);
+
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
 
@@ -96,6 +98,7 @@ public class createactivity extends AppCompatActivity {
 
         mBaiduMap.setOnMapClickListener(listener);
         city.addTextChangedListener(iscity);
+        createactivity.setOnClickListener(createbtn);
 //        time_start.setOnClickListener(setstarttime);
 //        time_end.setOnClickListener(setendtime);
 //        signtime_start.setOnClickListener(setsignstarttime);
@@ -109,36 +112,42 @@ public class createactivity extends AppCompatActivity {
 //        });
     }
 
-    public void btn_createactivity(View view) {
-        value_title = activity_title.getText().toString();
-        value_code = code_invite.getText().toString();
-        value_signstart = signtime_start.getText().toString();
-        value_signend = signtime_end.getText().toString();
-        value_start = time_start.getText().toString();
-        value_end = time_end.getText().toString();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        try {
-            simpleDateFormat.parse(value_start);
-            simpleDateFormat.parse(value_end);
-            simpleDateFormat.parse(value_signstart);
-            simpleDateFormat.parse(value_signend);
-            if(value_title.length() > 20){
-                Toast.makeText(getApplicationContext(),"活动主题名过长",Toast.LENGTH_SHORT);
+    View.OnClickListener createbtn = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            value_title = activity_title.getText().toString();
+            value_code = code_invite.getText().toString();
+            value_signstart = signtime_start.getText().toString();
+            value_signend = signtime_end.getText().toString();
+            value_start = time_start.getText().toString();
+            value_end = time_end.getText().toString();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+
+            try {
+                simpleDateFormat.parse(value_start);
+                simpleDateFormat.parse(value_end);
+                simpleDateFormat.parse(value_signstart);
+                simpleDateFormat.parse(value_signend);
+                if(value_title.length() > 20){
+                    Toast.makeText(createactivity.this,"活动主题名过长",Toast.LENGTH_SHORT).show();
+                }
+                else if (code_invite.getText().toString().length() > 8){
+                    Toast.makeText(createactivity.this,"邀请码过长",Toast.LENGTH_SHORT).show();
+                }
+                else if(activity_title.getText() == null || activity_location.getText() == null || time_start.getText() == null || time_end.getText() == null || signtime_start.getText() == null || signtime_end.getText() == null || code_invite.getText() == null){
+                    Toast.makeText(createactivity.this,"不能为空",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.i("create","success");
+                    infoManager.uiRegisterActivityInfo(infoManager.getMyInfo().getMyID(),value_title,point_longitude,point_latitude,value_code,value_signstart,value_signend,value_start,value_end);
+                }
+            } catch (ParseException e) {
+                Toast.makeText(createactivity.this,"格式有误或有空",Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
-            else if (code_invite.getText().toString().length() > 8){
-                Toast.makeText(getApplicationContext(),"邀请码过长",Toast.LENGTH_SHORT);
-            }
-            else if(activity_title.getText() == null || activity_location.getText() == null || time_year.getText() == null || time_mouth.getText() == null || time_day.getText() == null || time_start.getText() == null || time_end.getText() == null || signtime_start.getText() == null || signtime_start.getText() == null || code_invite.getText() == null){
-                Toast.makeText(getApplicationContext(),"不能为空",Toast.LENGTH_SHORT);
-            }
-            else {
-                infoManager.uiRegisterActivityInfo(infoManager.getMyInfo().getMyID(),value_title,point_longitude,point_latitude,value_code,value_signstart,value_signend,value_start,value_end);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"时间格式有误",Toast.LENGTH_SHORT);
         }
-    }
+    };
+
     public void getLocation(){
         mLocationClient = new LocationClient(this);
 
@@ -289,7 +298,7 @@ public class createactivity extends AppCompatActivity {
          * @param point 点击的地理坐标
          */
         @Override
-        public void onMapClick(LatLng point) {
+        public void onMapClick(final LatLng point) {
             point_latitude=point.latitude;
             point_longitude=point.longitude;
             final BigDecimal latitude=new BigDecimal(point_latitude);

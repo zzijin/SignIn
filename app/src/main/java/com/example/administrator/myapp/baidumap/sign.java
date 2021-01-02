@@ -56,7 +56,7 @@ public class sign extends AppCompatActivity {
     GeoCoder mSearch;
     Date start,end;
     Button btn;
-
+    MapStatus mMapStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,18 +81,6 @@ public class sign extends AppCompatActivity {
         getLocation();
         getInformation();
         getActivityInfo();
-
-        Range();
-        MapStatus mMapStatus;
-        mMapStatus = new MapStatus.Builder()
-                .target(mylatlng)//设定中心点坐标 ,要移动到的点
-                .zoom(getRank(DistanceUtil.getDistance(mylatlng, destinationlatlng))) //设置级别，放大地图到13倍
-                .build();
-
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
 
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
@@ -223,6 +211,16 @@ public class sign extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 destinationlatlng = new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude());
+                Range();
+                mMapStatus = new MapStatus.Builder()
+                        .target(mylatlng)//设定中心点坐标 ,要移动到的点
+                        .zoom(getRank(DistanceUtil.getDistance(mylatlng, destinationlatlng))) //设置级别，放大地图到13倍
+                        .build();
+
+                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                //改变地图状态
+                mBaiduMap.setMapStatus(mMapStatusUpdate);
                 value_information = "活动主题："+checkInActivityInfo.getActivityTheme()+
                         "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
                         "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +

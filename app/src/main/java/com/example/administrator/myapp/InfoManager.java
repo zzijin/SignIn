@@ -208,6 +208,7 @@ public class InfoManager {
                 activityInvitationCode, activityCheckInStartTime, activityCheckInEndTime, activityStartTime, activityEndTime);
         int index=this.checkInActivityInfoList.size();
         this.checkInActivityInfoList.add(checkInActivityInfo);
+        Log.i("信息管理","申请注册活动-theme:"+activityTheme);
         return SendMessageMethod.activityRegister(this.socketClient,checkInActivityInfo,index);
     }
 
