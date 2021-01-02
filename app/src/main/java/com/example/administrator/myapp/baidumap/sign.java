@@ -55,6 +55,7 @@ public class sign extends AppCompatActivity {
     LatLng mylatlng, destinationlatlng;
     InfoManager infoManager;
     int activityID;
+
     GeoCoder mSearch;
     Date start,end;
     Button btn;
@@ -75,6 +76,9 @@ public class sign extends AppCompatActivity {
         Intent id = getIntent();
         activityID = id.getIntExtra(MessageNameConfiguration.ACTIVITY_ID
                 ,-1);
+        if(id.getStringExtra("identity") != "加入者"){
+            btn.setVisibility(View.INVISIBLE);
+        }
         GeoCoder mSearch;
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
@@ -224,8 +228,8 @@ public class sign extends AppCompatActivity {
                 destinationlatlng = new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude());
                 value_information = "活动主题："+checkInActivityInfo.getActivityTheme()+
                         "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
-                        "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() +
-                        "\n结束签到时间：" + checkInActivityInfo.getActivityCheckInEndTime() + "\n活动地点：";
+                        "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +
+                        "\n活动地点：";
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude())));
             }
         });

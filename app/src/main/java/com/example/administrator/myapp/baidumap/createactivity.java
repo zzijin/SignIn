@@ -45,6 +45,8 @@ import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class createactivity extends AppCompatActivity {
@@ -73,7 +75,6 @@ public class createactivity extends AppCompatActivity {
         infoManager=socketApplication.getInfoManager();
 
         activity_title = findViewById(R.id.activity_title);
-        activity_location = findViewById(R.id.activity_location);
 
         code_invite = findViewById(R.id.code_invite);
         time_year = findViewById(R.id.time_year);
@@ -89,11 +90,11 @@ public class createactivity extends AppCompatActivity {
         keyword = findViewById(R.id.keyword);
         search = findViewById(R.id.search);
 
-        timepicker.setIs24HourView(true);
-        time_start.setInputType(InputType.TYPE_NULL);
-        time_end.setInputType(InputType.TYPE_NULL);
-        signtime_start.setInputType(InputType.TYPE_NULL);
-        signtime_end.setInputType(InputType.TYPE_NULL);
+//        timepicker.setIs24HourView(true);
+//        time_start.setInputType(InputType.TYPE_NULL);
+//        time_end.setInputType(InputType.TYPE_NULL);
+//        signtime_start.setInputType(InputType.TYPE_NULL);
+//        signtime_end.setInputType(InputType.TYPE_NULL);
 
         mMapView = (MapView) findViewById(R.id.create_map);
         mBaiduMap = mMapView.getMap();
@@ -103,26 +104,36 @@ public class createactivity extends AppCompatActivity {
 
         mBaiduMap.setOnMapClickListener(listener);
         city.addTextChangedListener(iscity);
-        time_start.setOnClickListener(setstarttime);
-        time_end.setOnClickListener(setendtime);
-        signtime_start.setOnClickListener(setsignstarttime);
-        signtime_end.setOnClickListener(setsignendtime);
-        timepicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                hour=i;
-                minute=i1;
-            }
-        });
+//        time_start.setOnClickListener(setstarttime);
+//        time_end.setOnClickListener(setendtime);
+//        signtime_start.setOnClickListener(setsignstarttime);
+//        signtime_end.setOnClickListener(setsignendtime);
+//        timepicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+//            @Override
+//            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+//                hour=i;
+//                minute=i1;
+//            }
+//        });
     }
 
     public void btn_createactivity(View view) {
         value_title = activity_title.getText().toString();
         value_code = code_invite.getText().toString();
-        value_signstart = timetostring(signtime_start.getText().toString());
-        value_signend = timetostring(signtime_end.getText().toString());
-        value_start = timetostring(time_start.getText().toString());
-        value_end = timetostring(time_end.getText().toString());
+        value_signstart = signtime_start.getText().toString();
+        value_signend = signtime_end.getText().toString();
+        value_start = time_start.getText().toString();
+        value_end = time_end.getText().toString();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            simpleDateFormat.parse(time_year.getText().toString()+"-"+
+                    time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_start+"-"+value_end);
+            simpleDateFormat.parse(time_year.getText().toString()+"-"+
+                    time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+value_signstart+"-"+value_signend);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"时间格式有误",Toast.LENGTH_SHORT);
+        }
         if(value_title.length() > 20){
             Toast.makeText(getApplicationContext(),"活动主题名过长",Toast.LENGTH_SHORT);
         }
@@ -163,21 +174,21 @@ public class createactivity extends AppCompatActivity {
         mLocationClient.start();
     }
 
-    public void settime(View view) {
-        if(t==0){
-            time_start.setText(hour+":"+minute);
-        }
-        if(t==1){
-            time_end.setText(hour+":"+minute);
-        }
-        if(t==2){
-            signtime_start.setText(hour+":"+minute);
-        }
-        if(t==3){
-            signtime_end.setText(hour+":"+minute);
-        }
-        show_timepicker.setVisibility(View.INVISIBLE);
-    }
+//    public void settime(View view) {
+//        if(t==0){
+//            time_start.setText(hour+":"+minute);
+//        }
+//        if(t==1){
+//            time_end.setText(hour+":"+minute);
+//        }
+//        if(t==2){
+//            signtime_start.setText(hour+":"+minute);
+//        }
+//        if(t==3){
+//            signtime_end.setText(hour+":"+minute);
+//        }
+//        show_timepicker.setVisibility(View.INVISIBLE);
+//    }
 
     public void search(View view) {
         // 通过GeoCoder的实例方法得到GerCoder对象
@@ -218,7 +229,6 @@ public class createactivity extends AppCompatActivity {
                     // 设置进行地图跳转
 
                     mBaiduMap.setMapStatus(mMapStatusUpdate);
-
                 }
             }
             // 这个方法是将坐标转化为具体地址
@@ -338,56 +348,51 @@ public class createactivity extends AppCompatActivity {
         }
     };
 
-    View.OnClickListener setstarttime=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            show_timepicker.setVisibility(View.VISIBLE);
-            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-            hour=calendar.get(Calendar.HOUR_OF_DAY);
-            minute=calendar.get(Calendar.MINUTE);
-            t=0;
-        }
-    };
-    View.OnClickListener setendtime=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            show_timepicker.setVisibility(View.VISIBLE);
-            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-            hour=calendar.get(Calendar.HOUR_OF_DAY);
-            minute=calendar.get(Calendar.MINUTE);
-            t=1;
-        }
-    };
-    View.OnClickListener setsignstarttime=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            show_timepicker.setVisibility(View.VISIBLE);
-            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-            hour=calendar.get(Calendar.HOUR_OF_DAY);
-            minute=calendar.get(Calendar.MINUTE);
-            t=2;
-        }
-    };
-    View.OnClickListener setsignendtime=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            show_timepicker.setVisibility(View.VISIBLE);
-            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-            hour=calendar.get(Calendar.HOUR_OF_DAY);
-            minute=calendar.get(Calendar.MINUTE);
-            t=3;
-        }
-    };
-    public String timetostring(String time){
-        time=time_year+"-"+time_mouth+"-"+time_day+" "+time_start+":00";
-        //SimpleDateFormat tts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //time=tts.parse(time);
-        return time;
-    }
+//    View.OnClickListener setstarttime=new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            show_timepicker.setVisibility(View.VISIBLE);
+//            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+//            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+//            hour=calendar.get(Calendar.HOUR_OF_DAY);
+//            minute=calendar.get(Calendar.MINUTE);
+//            t=0;
+//        }
+//    };
+//    View.OnClickListener setendtime=new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            show_timepicker.setVisibility(View.VISIBLE);
+//            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+//            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+//            hour=calendar.get(Calendar.HOUR_OF_DAY);
+//            minute=calendar.get(Calendar.MINUTE);
+//            t=1;
+//        }
+//    };
+//    View.OnClickListener setsignstarttime=new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            show_timepicker.setVisibility(View.VISIBLE);
+//            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+//            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+//            hour=calendar.get(Calendar.HOUR_OF_DAY);
+//            minute=calendar.get(Calendar.MINUTE);
+//            t=2;
+//        }
+//    };
+//    View.OnClickListener setsignendtime=new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            show_timepicker.setVisibility(View.VISIBLE);
+//            timepicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+//            timepicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+//            hour=calendar.get(Calendar.HOUR_OF_DAY);
+//            minute=calendar.get(Calendar.MINUTE);
+//            t=3;
+//        }
+//    };
+
     TextWatcher iscity = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

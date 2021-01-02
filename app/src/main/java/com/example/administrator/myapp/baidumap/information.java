@@ -21,8 +21,11 @@ import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class information extends AppCompatActivity {
-    TextView activity_title, activity_location, time_start, time_end, time_signstart, time_signend, code_invite;
+    TextView activity_title,activity_location,time_start,time_signstart,code_invite;
     InfoManager infoManager;
     int activityID;
     GeoCoder mSearch;
@@ -39,11 +42,10 @@ public class information extends AppCompatActivity {
         activity_title = findViewById(R.id.show_activity_title);
         activity_location = findViewById(R.id.show_actiivity_location);
         time_start = findViewById(R.id.show_time_start);
-        time_end = findViewById(R.id.show_time_end);
         time_signstart = findViewById(R.id.show_signtime_start);
-        time_signend = findViewById(R.id.show_signtime_end);
         code_invite = findViewById(R.id.code_invite);
         btn_join = findViewById(R.id.btn_join);
+        btn_join.setOnClickListener(join);
 
 
         Intent getid = getIntent();
@@ -86,11 +88,14 @@ public class information extends AppCompatActivity {
         ((information) this).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity_title.setText(checkInActivityInfo.getActivityTheme());
-                time_start.setText(checkInActivityInfo.getActivityStartTime());
-                time_end.setText(checkInActivityInfo.getActivityEndTime());
-                time_signstart.setText(checkInActivityInfo.getActivityCheckInStartTime());
-                time_signend.setText(checkInActivityInfo.getActivityCheckInEndTime());
+                activity_title.setText("活动主题："+checkInActivityInfo.getActivityEndTime());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    time_start.setText("活动时间："+simpleDateFormat.parse(checkInActivityInfo.getActivityStartTime())+"-"+simpleDateFormat.parse(checkInActivityInfo.getActivityEndTime()));
+                    time_signstart.setText("签到时间："+simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInStartTime())+"-"+simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInEndTime()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(), checkInActivityInfo.getActivityCheckInLongitude())));
             }
         });
@@ -125,6 +130,7 @@ public class information extends AppCompatActivity {
             public void run() {
                 Intent intent = new Intent(information.this, sign.class);
                 intent.putExtra("activityID", activityID);
+                intent.putExtra("identity","加入者");
                 startActivity(intent);
             }
         });
