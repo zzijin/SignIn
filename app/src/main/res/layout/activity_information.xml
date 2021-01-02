@@ -27,14 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="活动开始时间"
+                android:text="活动时间"
                 android:id="@+id/show_time_start"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="活动结束时间"
-                android:id="@+id/show_time_end"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,14 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="签到开始时间"
+                android:text="签到时间"
                 android:id="@+id/show_signtime_start"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="签到结束时间"
-                android:id="@+id/show_signtime_end"/>
         </LinearLayout>
         <EditText
             android:layout_width="match_parent"

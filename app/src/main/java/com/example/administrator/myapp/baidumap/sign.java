@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -36,7 +34,6 @@ import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +52,7 @@ public class sign extends AppCompatActivity {
     LatLng mylatlng, destinationlatlng;
     InfoManager infoManager;
     int activityID;
+
     GeoCoder mSearch;
     Date start,end;
     Button btn;
@@ -75,6 +73,9 @@ public class sign extends AppCompatActivity {
         Intent id = getIntent();
         activityID = id.getIntExtra(MessageNameConfiguration.ACTIVITY_ID
                 ,-1);
+        if(id.getStringExtra("identity") != "加入者"){
+            btn.setVisibility(View.INVISIBLE);
+        }
         GeoCoder mSearch;
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
@@ -174,7 +175,7 @@ public class sign extends AppCompatActivity {
     public void Range(){
 //构造CircleOptions对象
         CircleOptions mCircleOptions = new CircleOptions().center(destinationlatlng)
-                .radius(200)
+                .radius(100)
                 .fillColor(0xAA0000FF) //填充颜色
                 .stroke(new Stroke(5, 0xAA00ff00)); //边框宽和边框颜色
 
@@ -224,8 +225,8 @@ public class sign extends AppCompatActivity {
                 destinationlatlng = new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude());
                 value_information = "活动主题："+checkInActivityInfo.getActivityTheme()+
                         "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
-                        "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() +
-                        "\n结束签到时间：" + checkInActivityInfo.getActivityCheckInEndTime() + "\n活动地点：";
+                        "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +
+                        "\n活动地点：";
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude())));
             }
         });
