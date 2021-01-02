@@ -8,7 +8,7 @@ SignIn项目的Android客户端，使用JAVA编写
 制作开始:2020.12.21--  
 使用第三方库:BaiduMap(百度地图API)  
 时间匆忙，功能未实现完全，未经完整测试，可能存在大量BUG，请使用应用内反馈入口反馈意见  
-![警告](https://images.gitee.com/uploads/images/2021/0102/190937_55147592_8505810.png "屏幕截图.png")
+![警告](https://images.gitee.com/uploads/images/2021/0102/191106_89e152f6_8505810.png "警告.png")
   
 #### 项目链接:
 C#服务器：https://gitee.com/zzijin/SignInServer  
