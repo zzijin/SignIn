@@ -28,7 +28,7 @@ public class FindFragment extends Fragment {
     ImageView searchbtn;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_find, container, false);
@@ -40,8 +40,8 @@ public class FindFragment extends Fragment {
                 if (infoManager.uiGetActivityInfo(Integer.valueOf(et_search.getText().toString()))!=null){
                     Intent intent=new Intent(getActivity(),information.class);
                     intent=intent.putExtra(MessageNameConfiguration.ACTIVITY_ID,Integer.valueOf(et_search.getText().toString()));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
-                    getActivity().finish();
                 }else {
                     Toast.makeText(getActivity(),"此活动暂不存在",Toast.LENGTH_SHORT).show();
                 }

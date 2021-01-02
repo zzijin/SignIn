@@ -45,11 +45,17 @@ public class information extends AppCompatActivity {
         btn_join = findViewById(R.id.btn_join);
         btn_join.setOnClickListener(join);
 
-
         Intent getid = getIntent();
         activityID = getid.getIntExtra(MessageNameConfiguration.ACTIVITY_ID, -1);
         if (activityID == -1) {
             finish();
+            return;
+        }
+
+        if(infoManager.getActivityIDInMyJoinActivityList(activityID)||infoManager.getActivityIDInMyMangedActivityList(activityID)||
+                infoManager.getActivityIDInMyInitiatorActivityList(activityID)){
+            setJoin();
+            return;
         }
 
         getActivityInfo();
@@ -127,8 +133,8 @@ public class information extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent = new Intent(information.this, sign.class);
-                intent.putExtra("activityID", activityID);
-                intent.putExtra("identity","加入者");
+                intent.putExtra(MessageNameConfiguration.ACTIVITY_ID, activityID);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });

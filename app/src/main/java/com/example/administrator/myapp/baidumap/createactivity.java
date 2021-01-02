@@ -140,6 +140,7 @@ public class createactivity extends AppCompatActivity {
                 else {
                     Log.i("create","success");
                     infoManager.uiRegisterActivityInfo(infoManager.getMyInfo().getMyID(),value_title,point_longitude,point_latitude,value_code,value_signstart,value_signend,value_start,value_end);
+                    finish();
                 }
             } catch (ParseException e) {
                 Toast.makeText(createactivity.this,"格式有误或有空",Toast.LENGTH_SHORT).show();

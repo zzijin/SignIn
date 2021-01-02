@@ -61,9 +61,8 @@ public class sign extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
-        SocketApplication demoApplication=(SocketApplication) getApplication();
-
-        SocketClient socketClient=demoApplication.getSocketClient();
+        SocketApplication socketApplication=(SocketApplication) getApplication();
+        infoManager=socketApplication.getInfoManager();
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
@@ -73,27 +72,17 @@ public class sign extends AppCompatActivity {
         Intent id = getIntent();
         activityID = id.getIntExtra(MessageNameConfiguration.ACTIVITY_ID
                 ,-1);
-        if(id.getStringExtra("identity") != "加入者"){
+
+        if(infoManager.getActivityIDInMyMangedActivityList(activityID)||
+                infoManager.getActivityIDInMyInitiatorActivityList(activityID)){
             btn.setVisibility(View.INVISIBLE);
         }
-        GeoCoder mSearch;
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
         getInformation();
         getActivityInfo();
 
-        mSearch = GeoCoder.newInstance();
-        mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
-            @Override
-            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 
-            }
-            @Override
-            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-                Log.i("address",""+reverseGeoCodeResult.getAddress());
-                information.setText(value_information+reverseGeoCodeResult.getAddress());
-            }
-        });
 
         btn.setOnClickListener(btnSign);
 
@@ -161,13 +150,13 @@ public class sign extends AppCompatActivity {
     }
 
     public void Range(){
-//构造CircleOptions对象
+        //构造CircleOptions对象
         CircleOptions mCircleOptions = new CircleOptions().center(destinationlatlng)
                 .radius(100)
                 .fillColor(0xAA0000FF) //填充颜色
                 .stroke(new Stroke(5, 0xAA00ff00)); //边框宽和边框颜色
 
-//在地图上显示圆
+        //在地图上显示圆
         Overlay mCircle = mBaiduMap.addOverlay(mCircleOptions);
     }
 
@@ -210,6 +199,8 @@ public class sign extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                Log.i("活动信息页","获取活动定位坐标-Latitude:"+checkInActivityInfo.getActivityCheckInLatitude()
+                        +"-Longitude:"+checkInActivityInfo.getActivityCheckInLongitude());
                 destinationlatlng = new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude());
                 Range();
                 mMapStatus = new MapStatus.Builder()
@@ -225,6 +216,18 @@ public class sign extends AppCompatActivity {
                         "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
                         "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +
                         "\n活动地点：";
+                mSearch = GeoCoder.newInstance();
+                mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+                    @Override
+                    public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+                    }
+                    @Override
+                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                        Log.i("address",""+reverseGeoCodeResult.getAddress());
+                        information.setText(value_information+reverseGeoCodeResult.getAddress());
+                    }
+                });
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude())));
             }
         });

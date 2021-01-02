@@ -221,6 +221,7 @@ public class InfoManager {
     public void clientSetActivityID(int activityIndex,int activityID,String activityTheme){
         if(activityIndex<this.checkInActivityInfoList.size()){
             if (this.checkInActivityInfoList.get(activityIndex).getActivityTheme().equals(activityTheme)){
+                Log.i("信息管理","申请注册活动返回-theme:"+activityID);
                 this.checkInActivityInfoList.get(activityIndex).clientSetActivityID(activityID);
             }
         }
@@ -299,6 +300,36 @@ public class InfoManager {
     }
 
     ///////////////基本信息////////////////////
+
+    public boolean getActivityIDInMyJoinActivityList(int activityID){
+        Log.i("信息管理","对比我的加入活动-ID:"+activityID);
+        for (int i=0;i<myInfo.getJoinedActivities().size();i++){
+            if(myInfo.getJoinedActivities().get(i)==activityID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean getActivityIDInMyMangedActivityList(int activityID){
+        Log.i("信息管理","对比我的管理活动-ID:"+activityID);
+        for (int i=0;i<myInfo.getManagedActivities().size();i++){
+            if(myInfo.getManagedActivities().get(i)==activityID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean getActivityIDInMyInitiatorActivityList(int activityID){
+        Log.i("信息管理","对比我的发起活动-ID:"+activityID);
+        for (int i=0;i<myInfo.getInitiatorActivities().size();i++){
+            if(myInfo.getInitiatorActivities().get(i)==activityID){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String getMyStatusString(){
         String r;

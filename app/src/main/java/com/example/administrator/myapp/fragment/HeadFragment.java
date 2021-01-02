@@ -81,7 +81,6 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
       Log.i(" 我的活动信息列表","跳转活动详情界面-ID:"+itemItent.getIntExtra("activityID",0)
       +"-index:"+position);
       startActivity(itemItent);
-      getActivity().finish();
     }
 
     @Override
