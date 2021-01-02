@@ -73,13 +73,10 @@ public class createactivity extends AppCompatActivity {
         activity_title = findViewById(R.id.activity_title);
 
         code_invite = findViewById(R.id.code_invite);
-        time_year = findViewById(R.id.time_year);
-        time_mouth = findViewById(R.id.time_month);
-        time_day = findViewById(R.id.time_day);
         time_start = findViewById(R.id.time_start);
         time_end = findViewById(R.id.time_end);
-        signtime_start = findViewById(R.id.signtime_start);
-        signtime_end = findViewById(R.id.signtime_end);
+        signtime_start = findViewById(R.id.time_signstart);
+        signtime_end = findViewById(R.id.time_signend);
         city = findViewById(R.id.city);
         keyword = findViewById(R.id.keyword);
         search = findViewById(R.id.search);
@@ -115,15 +112,11 @@ public class createactivity extends AppCompatActivity {
     public void btn_createactivity(View view) {
         value_title = activity_title.getText().toString();
         value_code = code_invite.getText().toString();
-        value_signstart = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+signtime_start.getText().toString();
-        value_signend = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+signtime_end.getText().toString();
-        value_start = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+time_start.getText().toString();
-        value_end = time_year.getText().toString()+"-"+
-                time_mouth.getText().toString()+"-"+time_day.getText().toString()+"-"+time_end.getText().toString();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        value_signstart = signtime_start.getText().toString();
+        value_signend = signtime_end.getText().toString();
+        value_start = time_start.getText().toString();
+        value_end = time_end.getText().toString();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         try {
             simpleDateFormat.parse(value_start);
             simpleDateFormat.parse(value_end);

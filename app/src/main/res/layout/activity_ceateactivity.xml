@@ -76,69 +76,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="活动时间："/>
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/time_year"
-                    android:background="@null"  />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="年"
-                    android:layout_marginRight="10dp"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/time_month"
-                    android:background="@null"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="月"
-                    android:layout_marginRight="10dp"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/time_day"
-                    android:background="@null"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="日"
-                    android:layout_marginRight="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="开始时间"
                     android:id="@+id/time_start"
                     android:background="@null"
-                    android:layout_marginLeft="75dp"/>
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:background="#615E5E"
-                    android:layout_marginRight="10dp"/>
+                    android:hint="活动开始时间"/>
+
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="结束时间"
                     android:id="@+id/time_end"
-                    android:background="@null"/>
+                    android:background="@null"
+                    android:hint="活动结束时间"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,23 +100,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="签到开始时间"
-                    android:id="@+id/signtime_start"
+                    android:id="@+id/time_signstart"
                     android:background="@null"
-                    android:layout_marginLeft="75dp"/>
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:background="#615E5E"
-                    android:layout_marginRight="10dp"/>
+                    android:hint="签到开始时间"/>
+
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="签到结束时间"
-                    android:id="@+id/signtime_end"
-                    android:background="@null"/>
+                    android:id="@+id/time_signend"
+                    android:background="@null"
+                    android:hint="签到截至时间"/>
             </LinearLayout>
+
+
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
