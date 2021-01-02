@@ -257,7 +257,9 @@ public class LoginMyAccountActivity extends AppCompatActivity {
     private void setInputAnimator(){
         includeInput.setVisibility(View.GONE);
         buttonLogin.setVisibility(View.GONE);
+
         textForget.setText("");
+        textRegister.setText("");
         textLoad.setVisibility(View.VISIBLE);
         textLoad.setText("正在验证密码.");
         AnimatorSet animatorNarrowWidth = new AnimatorSet();
@@ -401,6 +403,12 @@ public class LoginMyAccountActivity extends AppCompatActivity {
                 textLoad.setVisibility(View.GONE);
                 includeInput.setVisibility(View.VISIBLE);
                 textForget.setText(R.string.password_forget_zh);
+                if (activityIsLogin){
+                    textRegister.setText(R.string.login_my_account);
+                }
+                else {
+                    textRegister.setText(R.string.register_my_account);
+                }
             }
 
             @Override

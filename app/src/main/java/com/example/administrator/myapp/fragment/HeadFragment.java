@@ -193,7 +193,7 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
                     //thread2.interrupt();
                     mychecklist.add(infoManager.uiGetActivityInfo(myactivities.get(i)));
             }
-           changeListView();
         }
+        changeListView();
     }
 }

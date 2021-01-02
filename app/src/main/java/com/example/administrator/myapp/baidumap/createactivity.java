@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.baidu.location.BDAbstractLocationListener;
@@ -45,7 +46,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class createactivity extends AppCompatActivity {
-    EditText activity_title,activity_location,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
+    TextView activity_location;
+    EditText activity_title,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
     String value_title,value_signstart,value_signend,value_start,value_end,value_city,value_keyword,value_code;
     Button search;
     private MapView mMapView = null;
@@ -78,11 +80,10 @@ public class createactivity extends AppCompatActivity {
         time_end = findViewById(R.id.time_end);
         signtime_start = findViewById(R.id.signtime_start);
         signtime_end = findViewById(R.id.signtime_end);
-        show_timepicker = findViewById(R.id.show_timepicker);
-        timepicker = findViewById(R.id.timepicker);
         city = findViewById(R.id.city);
         keyword = findViewById(R.id.keyword);
         search = findViewById(R.id.search);
+        activity_location=findViewById(R.id.activity_location);
 
 //        timepicker.setIs24HourView(true);
 //        time_start.setInputType(InputType.TYPE_NULL);
