@@ -81,3 +81,10 @@ C#服务器：https://gitee.com/zzijin/SignInServer
 
 #### 应用功能截图  
 
+![登录页](https://images.gitee.com/uploads/images/2021/0103/184116_9c71a0ea_8505810.jpeg "登录页.jpg")
+![首页](https://images.gitee.com/uploads/images/2021/0103/184126_1b4b5853_8505810.jpeg "首页.jpg")
+![相关活动列表](https://images.gitee.com/uploads/images/2021/0103/184143_ae299d2a_8505810.jpeg "相关活动列表.jpg")
+![我的信息](https://images.gitee.com/uploads/images/2021/0103/184151_a2ca81cf_8505810.jpeg "我的信息.jpg")
+![加入活动](https://images.gitee.com/uploads/images/2021/0103/184202_312a6b49_8505810.jpeg "加入活动.jpg")
+![签到页面](https://images.gitee.com/uploads/images/2021/0103/184210_9b032d0b_8505810.jpeg "签到页面.jpg")
+![创建活动](https://images.gitee.com/uploads/images/2021/0103/184226_bd35f2b8_8505810.jpeg "创建活动.jpg")
