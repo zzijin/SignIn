@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=getIntent();
         myID=intent.getIntExtra("myID",0);
         navigation =findViewById(R.id.navigation);
-        head = new HeadFragment(myID);
+        head = new HeadFragment();
         find = new FindFragment();
         me = new MeFragment();
         transaction = getSupportFragmentManager().beginTransaction();

@@ -16,9 +16,7 @@ import java.util.List;
 
 public class InfoManager {
     private LinkedList<CheckInActivityInfo> checkInActivityInfoList;
-    private boolean activityIsNew=false;
     private LinkedList<UserInfo> userInfoList;
-    private boolean userInfoIsNew=false;
     private MyInfo myInfo;
     private SocketClient socketClient;
 

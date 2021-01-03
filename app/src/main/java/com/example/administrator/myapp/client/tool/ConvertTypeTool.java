@@ -71,7 +71,6 @@ public class ConvertTypeTool {
     {
         byte[] c = new byte[a.length + b.length + 2];
 
-
         System.arraycopy(a, 0, c, 1, a.length);
         System.arraycopy(b, 0, c, a.length + 1, b.length);
         c[0] = SocketConfiguration.DATA_START_TAG;

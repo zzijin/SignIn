@@ -5,17 +5,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="50dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
 
         <com.example.administrator.myapp.cls.RadioGroup
             android:id="@+id/rgTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:checkedButton="@id/initiatoractivities">
+            app:checkedButton="@id/joinedactivities">
+            <com.example.administrator.myapp.cls.UnderlineRadioButton
+                android:id="@+id/joinedactivities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:text="参加的活动"
+                app:textColorChecked="@color/colorPrimary"
+                app:textColorUnchecked="#55000000"
+                app:textMarginBottom="3dp"
+                app:textMarginTop="3dp"
+                app:underlineColorChecked="@color/colorPrimary"
+                app:underlineColorUnchecked="@android:color/transparent"
+                app:underlineHeight="3dp" />
+
             <com.example.administrator.myapp.cls.UnderlineRadioButton
                 android:id="@+id/initiatoractivities"
                 android:layout_width="0dp"
@@ -29,19 +44,6 @@
                 app:underlineColorChecked="@color/colorPrimary"
                 app:underlineColorUnchecked="@android:color/transparent"
                 app:underlineHeight="3dp" />
-           <com.example.administrator.myapp.cls.UnderlineRadioButton
-               android:id="@+id/joinedactivities"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_weight="1"
-               app:text="参加的活动"
-               app:textColorChecked="@color/colorPrimary"
-               app:textColorUnchecked="#55000000"
-               app:textMarginBottom="3dp"
-               app:textMarginTop="3dp"
-               app:underlineColorChecked="@color/colorPrimary"
-               app:underlineColorUnchecked="@android:color/transparent"
-               app:underlineHeight="3dp" />
 
             <com.example.administrator.myapp.cls.UnderlineRadioButton
                 android:id="@+id/managedactivities"
@@ -60,12 +62,12 @@
         </com.example.administrator.myapp.cls.RadioGroup>
 
         <ListView
-            android:id="@+id/head_list"
+            android:id="@+id/list_view_activity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/rgTab"
             android:divider="@null">
         </ListView>
-    </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>
