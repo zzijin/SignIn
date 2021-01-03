@@ -8,7 +8,8 @@ SignIn项目的Android客户端，使用JAVA编写
 制作周期:2020.12.21--    
 使用第三方库:BaiduMap(百度地图API)  
 ![警告](https://images.gitee.com/uploads/images/2021/0102/191918_8832d412_8505810.png "警告.png")时间匆忙，功能未实现完全，未经完整测试，可能存在大量BUG，请使用应用内反馈入口反馈意见  
-![警告](https://images.gitee.com/uploads/images/2021/0102/191106_89e152f6_8505810.png "警告.png")使用该应用可能会遇到的BUG包括但不仅限于与服务器意外断开连接后无提示，使用某些操作后闪退等，若遭遇以上bug请重启应用  
+![警告](https://images.gitee.com/uploads/images/2021/0102/191106_89e152f6_8505810.png "警告.png")使用该应用可能会遇到的BUG包括但不仅限于与服务器意外断开连接后无提示，使用某些操作后闪退等，若遭遇以上bug请重启应用   
+![警告](https://images.gitee.com/uploads/images/2021/0102/191106_89e152f6_8505810.png "警告.png")已知未处理相关问题：1.相关页面列表不会主动刷新，请手动切换列表刷新 2.搜索栏搜索不存在的活动不会弹出信息框提示，长时间无信息刷新请返回主页 3.应用未实装断线重连功能，手机切换/断开网络后请重启应用   
   
 #### 项目链接:
 C#服务器：https://gitee.com/zzijin/SignInServer  
@@ -74,3 +75,6 @@ C#服务器：https://gitee.com/zzijin/SignInServer
   
 一、活动信息/用户信息/本地文件信息:使用安卓自带的轻量级数据库SQLite存放  
 二、用户头像/活动封面/更新安装包等文件：使用FileOutputStream存储在本地(若是未接收完全的文件将该文件的BaseFile类序列化存储到本地，以便后续传输)  
+
+#### 应用功能截图  
+
