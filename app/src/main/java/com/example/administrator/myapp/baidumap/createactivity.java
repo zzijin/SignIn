@@ -47,20 +47,17 @@ import java.text.SimpleDateFormat;
 
 public class createactivity extends AppCompatActivity {
     TextView activity_location;
-    EditText activity_title,time_year,time_mouth,time_day,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
+    EditText activity_title,time_start,time_end,signtime_start,signtime_end,city,keyword,code_invite;
     String value_title,value_signstart,value_signend,value_start,value_end,value_city,value_keyword,value_code;
     Button search,createactivity;
     private MapView mMapView = null;
     private BaiduMap mBaiduMap;
     LocationClient mLocationClient;
-    LinearLayout show_timepicker;
-    TimePicker timepicker;
     Boolean isBackLoc=true;
     double accuracy;
     double Latitude,point_latitude;
     double Longitude,point_longitude;
     String address;
-    int t,hour,minute;
     InfoManager infoManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

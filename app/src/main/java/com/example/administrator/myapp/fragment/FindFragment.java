@@ -25,7 +25,6 @@ public class FindFragment extends Fragment {
     Button vCreateNewActivity;
     InfoManager infoManager;
     EditText et_search;
-    ImageView searchbtn;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,

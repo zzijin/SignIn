@@ -26,7 +26,6 @@ import com.example.administrator.myapp.baidumap.sign;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.cls.RadioGroup;
-import com.example.administrator.myapp.cls.Sign;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 import java.util.ArrayList;
@@ -36,13 +35,10 @@ import java.util.List;
 public class HeadFragment extends Fragment implements AdapterView.OnItemClickListener,RadioGroup.OnCheckedChangeListener{
     private RadioGroup rg;
     private ListView listView;
-    private List<Sign> list=new ArrayList<>();
     private List<CheckInActivityInfo> mychecklist=new ArrayList<>();
-    private List<MyInfo> myInfoslist=new ArrayList<>();
     private MyInfo myInfo;
     private int myID;
     private SocketApplication socketApplication;
-    private  SocketClient socketClient;
     private InfoManager infoManager;
     private BaseAdapter adapter;
     private Thread thread1,thread2;
@@ -68,7 +64,6 @@ public class HeadFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         socketApplication=(SocketApplication)getActivity().getApplication();
-        socketClient=socketApplication.getSocketClient();
         infoManager=socketApplication.getInfoManager();
         myInfo=infoManager.getMyInfo();
     }

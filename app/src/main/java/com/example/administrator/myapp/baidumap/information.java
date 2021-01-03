@@ -19,8 +19,6 @@ import com.example.administrator.myapp.InfoManager;
 import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.client.SocketApplication;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class information extends AppCompatActivity {
     TextView activity_title,activity_location,time_start,time_signstart,code_invite;
