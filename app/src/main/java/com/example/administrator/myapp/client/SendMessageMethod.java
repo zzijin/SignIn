@@ -63,4 +63,11 @@ public class SendMessageMethod {
         json.putData(MessageNameConfiguration.ACTIVITY_INVITATION_CODE,code);
         return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_MY_JOIN_ACTIVITY,json.getMessage());
     }
+
+    public static boolean signInActivity(SocketClient socketClient,int activityID,int userID){
+        JsonByUTF8 json=new JsonByUTF8();
+        json.putData(MessageNameConfiguration.ACTIVITY_ID,activityID);
+        json.putData(MessageNameConfiguration.USER_ID,userID);
+        return socketClient.sendMessage(ClientMessageTypeConfiguration.CLIENT_ACTIVITY_SIGN_IN,json.getMessage());
+    }
 }

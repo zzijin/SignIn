@@ -8,7 +8,7 @@ public class SocketConfiguration {
     /**
      * 测试用服务器IP地址
      */
-    public static final String IP_TEST="100.70.108.192";
+    public static final String IP_TEST="120.79.158.83";
     /**
      * 服务器端口
      */

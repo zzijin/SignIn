@@ -82,6 +82,7 @@
                     android:layout_weight="1"
                     android:id="@+id/time_start"
                     android:background="@null"
+                    android:digits="1234567890:."
                     android:hint="活动开始时间"/>
 
                 <EditText
@@ -90,6 +91,7 @@
                     android:layout_weight="1"
                     android:id="@+id/time_end"
                     android:background="@null"
+                    android:digits="1234567890:."
                     android:hint="活动结束时间"/>
             </LinearLayout>
             <LinearLayout
@@ -102,6 +104,7 @@
                     android:layout_weight="1"
                     android:id="@+id/time_signstart"
                     android:background="@null"
+                    android:digits="1234567890:."
                     android:hint="签到开始时间"/>
 
                 <EditText
@@ -110,6 +113,7 @@
                     android:layout_weight="1"
                     android:id="@+id/time_signend"
                     android:background="@null"
+                    android:digits="1234567890:."
                     android:hint="签到截至时间"/>
             </LinearLayout>
             <EditText

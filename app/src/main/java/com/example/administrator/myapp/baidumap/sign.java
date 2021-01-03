@@ -77,6 +77,7 @@ public class sign extends AppCompatActivity {
                 infoManager.getActivityIDInMyInitiatorActivityList(activityID)){
             btn.setVisibility(View.INVISIBLE);
         }
+
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
         getInformation();
@@ -192,10 +193,11 @@ public class sign extends AppCompatActivity {
         ((sign) this).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
                 try {
                     start=simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInStartTime());
                     end=simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInEndTime());
+                    Log.i("活动信息页","活动签到开始时间:"+start.toString()+"-活动签到结束时间:"+end);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -213,7 +215,7 @@ public class sign extends AppCompatActivity {
                 //改变地图状态
                 mBaiduMap.setMapStatus(mMapStatusUpdate);
                 value_information = "活动主题："+checkInActivityInfo.getActivityTheme()+
-                        "\n开始时间：" + checkInActivityInfo.getActivityStartTime() +
+                        "\n活动时间：" + checkInActivityInfo.getActivityStartTime() +"——"+checkInActivityInfo.getActivityEndTime()+
                         "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +
                         "\n活动地点：";
                 mSearch = GeoCoder.newInstance();
@@ -265,6 +267,7 @@ public class sign extends AppCompatActivity {
             }
             else if(DistanceUtil.getDistance(mylatlng, destinationlatlng)<=100&&System.currentTimeMillis()>=start.getTime()&&System.currentTimeMillis()<=end.getTime()){
                 Log.i("distance", String.valueOf(DistanceUtil.getDistance(mylatlng, destinationlatlng)));
+                infoManager.uiSignActivity(activityID);
                 Toast.makeText(getApplicationContext(),"签到成功",Toast.LENGTH_SHORT).show();
                 btn.setEnabled(false);
             }

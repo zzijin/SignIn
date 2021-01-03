@@ -33,8 +33,9 @@ public class MessageNameConfiguration {
     static final public String ACTIVITY_ID="ActivityID";
     static final public String ACTIVITY_INVITATION_CODE="activityInvitationCode";
     static final public String ACTIVITY_PARTICIPANT_USER_ID="activityParticipantUserID";
-    static final public String ACTIVITY_PARTICIPANT_CLOCK_IN="activityParticipantUserID";
+    static final public String ACTIVITY_PARTICIPANT_CLOCK_IN="activityParticipantClockIn";
     static final public String ACTIVITY_PARTICIPANT_ADMINISTRATOR="activityParticipantAdministrator";
+    static final public String ACTIVITY_SIGN_IN_STATUS="activitySignInStatus";
 
     static final public String USER_ID="UserID";
     static final public String USER_NAME="UserName";

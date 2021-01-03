@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MeFragment extends Fragment implements View.OnClickListener {
     private ImageView notice,activities,wait,userpro;
-    private TextView username;
+    private TextView username,myName;
     private InfoManager infoManager;
     private MeFragmentItem meFragmentItem;
     private int myStatus=0;
@@ -37,6 +37,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_me, container, false);
         username=view.findViewById(R.id.me_username);
+        myName=view.findViewById(R.id.text_my_name);
         userpro=view.findViewById(R.id.login);
         notice=view.findViewById(R.id.me_notice);
         activities=view.findViewById(R.id.me_activities);
@@ -64,8 +65,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         infoManager = socketApplication.getInfoManager();
         myStatus=infoManager.getMyLoginStatus();
         if (myStatus==1){
-            username.setText(infoManager.getMyInfo().getMyName());
-            userpro.setImageResource(R.mipmap.me_namepro);
+            username.setText("UID:"+infoManager.getMyInfo().getMyID());
+            myName.setText(infoManager.getMyInfo().getMyName());
+            userpro.setImageResource(R.drawable.ic_account);
         }
     }
 

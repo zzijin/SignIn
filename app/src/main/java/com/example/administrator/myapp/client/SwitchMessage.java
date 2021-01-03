@@ -50,7 +50,9 @@ public class SwitchMessage {
             case ServerMessageTypeConfiguration.SERVER_MY_JOIN_ACTIVITY:
                 caseActivityJoin(basicMessage);break;
             case ServerMessageTypeConfiguration.SERVER_ACTIVITY_PARTICIPANT_LIST:
-                ;break;
+                caseGetActivityParticipantList(basicMessage);break;
+            case ServerMessageTypeConfiguration.SERVER_ACTIVITY_SIGN_IN:
+                 caseSignInActivity(basicMessage);break;
             default:
                 caseDefault(basicMessage);break;
         }
@@ -166,7 +168,16 @@ public class SwitchMessage {
             e.printStackTrace();
             Log.i("Socket分置数据","参与活动列表返回数据,错误:"+e.getMessage());
         }
+    }
 
+    private void caseSignInActivity(BasicMessage basicMessage){
+        JsonByUTF8 json=new JsonByUTF8(basicMessage.getMainData());
+        try {
+            infoManager.clientSignInActivityStatus(json.getJson().getInt(MessageNameConfiguration.ACTIVITY_ID),
+                    json.getJson().getInt(MessageNameConfiguration.USER_ID),json.getJson().getBoolean(MessageNameConfiguration.ACTIVITY_SIGN_IN_STATUS));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void caseHeartBeat(BasicMessage basicMessage){

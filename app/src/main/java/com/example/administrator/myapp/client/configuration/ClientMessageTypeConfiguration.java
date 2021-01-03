@@ -16,4 +16,5 @@ public class ClientMessageTypeConfiguration {
     final static public int CLIENT_ACTIVITY_REGISTER=12000;
     final static public int CLIENT_ACTIVITY_GET_INFO=12001;
     final static public int CLIENT_ACTIVITY_PARTICIPANT_LIST=12002;
+    final static public int CLIENT_ACTIVITY_SIGN_IN=12003;
 }

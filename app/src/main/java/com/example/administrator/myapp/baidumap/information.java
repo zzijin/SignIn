@@ -93,13 +93,10 @@ public class information extends AppCompatActivity {
             @Override
             public void run() {
                 activity_title.setText("活动主题："+checkInActivityInfo.getActivityEndTime());
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    time_start.setText("活动时间："+simpleDateFormat.parse(checkInActivityInfo.getActivityStartTime())+"-"+simpleDateFormat.parse(checkInActivityInfo.getActivityEndTime()));
-                    time_signstart.setText("签到时间："+simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInStartTime())+"-"+simpleDateFormat.parse(checkInActivityInfo.getActivityCheckInEndTime()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                time_start.setText("活动时间："+checkInActivityInfo.getActivityStartTime()+"-"+checkInActivityInfo.getActivityEndTime());
+                time_signstart.setText("签到时间："+checkInActivityInfo.getActivityCheckInStartTime()+"-"+checkInActivityInfo.getActivityCheckInEndTime());
+
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(), checkInActivityInfo.getActivityCheckInLongitude())));
             }
         });

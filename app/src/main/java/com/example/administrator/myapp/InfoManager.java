@@ -162,7 +162,7 @@ public class InfoManager {
      * 界面获取某个用户的信息
      * @param userID 返回null则等待
      */
-    public UserInfo uiAddUserInfo(int userID){
+    public UserInfo uiGetUserInfo(int userID){
         for(int i=0;i<this.userInfoList.size();i++){
             if(this.userInfoList.get(i).getUserID()==userID){
                 return this.userInfoList.get(i);
@@ -170,6 +170,7 @@ public class InfoManager {
         }
         this.userInfoList.add(new UserInfo(userID));
         SendMessageMethod.userGetInfoByID(this.socketClient,userID);
+        Log.i("信息管理","申请获取用户信息-userID:"+userID);
         return null;
     }
 
@@ -181,6 +182,7 @@ public class InfoManager {
         for(int i=0;i<this.userInfoList.size();i++){
             if(this.userInfoList.get(i).getUserID()==userInfo.getUserID()){
                 this.userInfoList.get(i).clientSetUserInfo(userInfo);
+                Log.i("信息管理","获取到用户信息-userID:"+userInfo.getUserID());
                 break;
             }
         }
@@ -256,6 +258,8 @@ public class InfoManager {
         for (int i=0;i<this.checkInActivityInfoList.size();i++){
             if(this.checkInActivityInfoList.get(i).getActivityID()==checkInActivityInfo.getActivityID()){
                 this.checkInActivityInfoList.get(i).clientSetActivityInfo(checkInActivityInfo);
+                uiGetActivityParticipant(this.checkInActivityInfoList.get(i).getActivityID());
+                Log.i("信息管理","获取活动信息-ActivityID:"+this.checkInActivityInfoList.get(i).getActivityID());
                 return;
             }
         }
@@ -271,7 +275,11 @@ public class InfoManager {
     public void clientSetActivityParticipantInfo(List<Participant> activityParticipant, int activityID){
         for (int i=0;i<this.checkInActivityInfoList.size();i++){
             if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                Log.i("信息管理","获取到活动的参与者列表-activityID:"+activityID);
                 this.checkInActivityInfoList.get(i).clientSetActivityParticipantInfo(activityParticipant);
+                for(int o=0;o<activityParticipant.size();o++){
+                    uiGetUserInfo(activityParticipant.get(o).userID);
+                }
                 return;
             }
         }
@@ -297,6 +305,24 @@ public class InfoManager {
         }
         SendMessageMethod.activityGetInfo(this.socketClient,activityID);
         return null;
+    }
+
+    public boolean uiSignActivity(int activityID){
+        return SendMessageMethod.signInActivity(this.socketClient,activityID,this.myInfo.getMyID());
+    }
+
+    public void clientSignInActivityStatus(int activityID,int userID,boolean signInStatus){
+        for (int i=0;i<this.checkInActivityInfoList.size();i++){
+            if(this.checkInActivityInfoList.get(i).getActivityID()==activityID){
+                for(int o=0;o<this.checkInActivityInfoList.get(i).getActivityParticipant().size();o++){
+                    if(this.checkInActivityInfoList.get(i).getActivityParticipant().get(o).userID==userID){
+                        Log.i("信息管理","用户:"+userID+"完成活动:"+activityID+"的签到任务状态:"+signInStatus);
+                        this.checkInActivityInfoList.get(i).getActivityParticipant().get(o).clockIn=signInStatus;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     ///////////////基本信息////////////////////
