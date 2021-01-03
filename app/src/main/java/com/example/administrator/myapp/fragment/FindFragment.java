@@ -18,12 +18,14 @@ import com.example.administrator.myapp.R;
 import com.example.administrator.myapp.baidumap.createactivity;
 import com.example.administrator.myapp.baidumap.information;
 import com.example.administrator.myapp.client.SocketApplication;
+import com.example.administrator.myapp.client.SocketClient;
 import com.example.administrator.myapp.configuration.MessageNameConfiguration;
 
 
 public class FindFragment extends Fragment {
     Button vCreateNewActivity;
     InfoManager infoManager;
+    SocketClient socketClient;
     EditText et_search;
 
     @Override
@@ -36,13 +38,15 @@ public class FindFragment extends Fragment {
         view.findViewById(R.id.find_search_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (infoManager.uiGetActivityInfo(Integer.valueOf(et_search.getText().toString()))!=null){
-                    Intent intent=new Intent(getActivity(),information.class);
-                    intent=intent.putExtra(MessageNameConfiguration.ACTIVITY_ID,Integer.valueOf(et_search.getText().toString()));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(getActivity(),"此活动暂不存在",Toast.LENGTH_SHORT).show();
+                if(socketClient.getConnStatus()){
+                    if (infoManager.uiGetActivityInfo(Integer.valueOf(et_search.getText().toString()))!=null){
+                        Intent intent=new Intent(getActivity(),information.class);
+                        intent=intent.putExtra(MessageNameConfiguration.ACTIVITY_ID,Integer.valueOf(et_search.getText().toString()));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(getActivity(),"此活动暂不存在",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -53,6 +57,7 @@ public class FindFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SocketApplication socketApplication=(SocketApplication)getActivity().getApplication();
+        socketClient=socketApplication.getSocketClient();
         infoManager=socketApplication.getInfoManager();
         vCreateNewActivity=view.findViewById(R.id.find_btn);
         vCreateNewActivity.setOnClickListener(cCreateNewActivity);

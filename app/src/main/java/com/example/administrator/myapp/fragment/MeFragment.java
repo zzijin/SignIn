@@ -75,7 +75,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             case R.id.login:{
                 if (myStatus!=1){
                     startActivity(new Intent(getActivity(), LoginMyAccountActivity.class));
-                    getActivity().finish();
                 }
             };break;
     }

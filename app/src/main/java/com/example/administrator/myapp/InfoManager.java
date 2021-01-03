@@ -42,6 +42,7 @@ public class InfoManager {
      */
     public void uiLoginMyAccount(int myID,String myPassword){
         this.myInfo.uiLoginMyAccount(myID,myPassword);
+        Log.i("信息管理","申请登录账户-userID:"+myID);
         SendMessageMethod.myLoginByID(this.socketClient,myID,myPassword);
     }
 
@@ -50,6 +51,7 @@ public class InfoManager {
      */
     public void clientLoginStatus(boolean loginStatus,MyInfo myInfo){
         if(loginStatus){
+            Log.i("信息管理","用户登录成功-userID:"+myInfo.getMyID());
             this.myInfo.clientLoginSucceedMyInfo(myInfo);
             //获取用户相关活动信息
             List<Integer> managedActivities=myInfo.getManagedActivities();
@@ -68,6 +70,7 @@ public class InfoManager {
             }
         }
         else {
+            Log.i("信息管理","用户登录失败-userID:"+myInfo.getMyID());
             this.myInfo.clientLoginFailMyInfo();
         }
     }
@@ -305,6 +308,18 @@ public class InfoManager {
         }
         SendMessageMethod.activityGetInfo(this.socketClient,activityID);
         return null;
+    }
+
+    public boolean uiGetUserSignInActivityStatus(int activityID,int userID){
+        CheckInActivityInfo checkInActivityInfo=uiGetActivityInfo(activityID);
+        if(checkInActivityInfo!=null){
+            for(int i=0;i<checkInActivityInfo.getActivityParticipant().size();i++){
+                if(checkInActivityInfo.getActivityParticipant().get(i).userID==userID){
+                    return checkInActivityInfo.getActivityParticipant().get(i).clockIn;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean uiSignActivity(int activityID){

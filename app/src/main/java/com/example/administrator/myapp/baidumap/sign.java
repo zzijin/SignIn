@@ -73,10 +73,6 @@ public class sign extends AppCompatActivity {
         activityID = id.getIntExtra(MessageNameConfiguration.ACTIVITY_ID
                 ,-1);
 
-        if(infoManager.getActivityIDInMyMangedActivityList(activityID)||
-                infoManager.getActivityIDInMyInitiatorActivityList(activityID)){
-            btn.setVisibility(View.INVISIBLE);
-        }
 
         mBaiduMap.setMyLocationEnabled(true);
         getLocation();
@@ -218,6 +214,14 @@ public class sign extends AppCompatActivity {
                         "\n活动时间：" + checkInActivityInfo.getActivityStartTime() +"——"+checkInActivityInfo.getActivityEndTime()+
                         "\n签到时间：" + checkInActivityInfo.getActivityCheckInStartTime() + "——" + checkInActivityInfo.getActivityCheckInEndTime() +
                         "\n活动地点：";
+                Log.i("签到界面","是否为加入者"+infoManager.getActivityIDInMyJoinActivityList(activityID));
+                if(infoManager.getActivityIDInMyJoinActivityList(activityID)){
+                    btn.setVisibility(View.VISIBLE);
+                    if(infoManager.uiGetUserSignInActivityStatus(activityID,infoManager.getMyInfo().getMyID())){
+                        btn.setText("您已签到");
+                        btn.setEnabled(false);
+                    }
+                }
                 mSearch = GeoCoder.newInstance();
                 mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
                     @Override
@@ -226,11 +230,12 @@ public class sign extends AppCompatActivity {
                     }
                     @Override
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-                        Log.i("address",""+reverseGeoCodeResult.getAddress());
+                        Log.i("签到界面",""+reverseGeoCodeResult.getAddress());
                         information.setText(value_information+reverseGeoCodeResult.getAddress());
                     }
                 });
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(new LatLng(checkInActivityInfo.getActivityCheckInLatitude(),checkInActivityInfo.getActivityCheckInLongitude())));
+
             }
         });
     }
